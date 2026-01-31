@@ -1,0 +1,1 @@
+export const baseUrlResource = import.meta.env.VITE_URL_BASE_RESOURCE
