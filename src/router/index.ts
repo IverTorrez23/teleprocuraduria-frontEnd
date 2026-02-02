@@ -671,6 +671,11 @@ const router = createRouter({
           component: () => import('@/modules/general/Ordenes/DetalleOrden/views/VOrdenCliente.vue'),
           props: true
         },
+        {
+          path: '/deposito-billetera',
+          name: 'DepositoBilletera',
+          component: () => import('@/modules/general/Billetera/views/VDepositoFromAdmin.vue')
+        },
         ...abogadoLiderRoutes,
         {
           path: '/:pathMatch(.*)*',
