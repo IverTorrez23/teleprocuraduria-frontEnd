@@ -10,6 +10,9 @@ const ENDPOINT = Object.freeze({
   listarPorBilletera(fechaIni:string,fechaFin:string,billeteraId: number ) {
     return this.BILLETERATRANSACCION + `/listado-billetera/${fechaIni}/${fechaFin}/${billeteraId}`
   },
+  listarDepPorAdmin() {
+    return this.BILLETERATRANSACCION + `/listado-dep-admin`
+  },
 })
 
 const getTransaccionesBilletera = async (
@@ -49,11 +52,58 @@ const getTransaccionesBilletera = async (
   }
 }
 
-const createTransaccion = async (transaccion: Omit<IBilleteraTransaccion, 'id'>) => {
+const getTransaccionesDepBilleteraAdmin = async (
+  options: IOpcionesPaginado
+): Promise<{ pagination: IPaginado; result: IBilleteraTransaccion[] }> => {
+  try {
+    const response = await axios.get(ENDPOINT.listarDepPorAdmin(), {
+      params: {
+        page: options.page,
+        perPage: options.perPage,
+        search: JSON.stringify(options.search),
+        sort: JSON.stringify(options.sort)
+      }
+    })
+
+    const data = response.data
+
+    const pagination: IPaginado = {
+      rowsPerPage: data.meta.per_page,
+      rowsNumber: data.meta.total,
+      totalItems: data.meta.total,
+      itemCount: data.meta.to,
+      perPage: data.meta.per_page,
+      currentPage: data.meta.current_page
+    }
+
+    return {
+      pagination,
+      result: data.data
+    }
+  } catch (error) {
+    console.error('Failed to fetch transacciones', error)
+    return CrearRespuestaPaginado()
+  }
+}
+
+/*const createTransaccion = async (transaccion: Omit<IBilleteraTransaccion, 'id'>) => {
   const response = await axios
     .post<{ response: IBilleteraTransaccion }>(ENDPOINT.BILLETERATRANSACCION, transaccion)
     .catch(() => undefined)
   return response?.data?.response
+}*/
+
+const createTransaccion = async (transaccion: Omit<IBilleteraTransaccion, 'id'>) => {
+  try {
+    const response = await axios.post<{ response: IBilleteraTransaccion }>(
+      ENDPOINT.BILLETERATRANSACCION,
+      transaccion
+    )
+    return response.data.response
+  } catch (error: any) {
+    // Relanzamos el mensaje del backend si existe
+    throw error.response?.data?.message || 'Error desconocido al depositar.'
+  }
 }
 
 const deleteBilleteraTransaccion = async (transaccion: IBilleteraTransaccion) => {
@@ -69,5 +119,6 @@ const deleteBilleteraTransaccion = async (transaccion: IBilleteraTransaccion) =>
 export default {
   getTransaccionesBilletera,
   createTransaccion,
-  deleteBilleteraTransaccion
+  deleteBilleteraTransaccion,
+  getTransaccionesDepBilleteraAdmin
 }

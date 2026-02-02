@@ -610,6 +610,11 @@ const modelAdmin = ref([
             to: '/devolucion-saldos'
           },
           {
+            label: 'Deposito a Billetera',
+            icon: 'pi pi-fw pi-dollar',
+            to: '/deposito-billetera'
+          },
+          {
             label: 'Operaciones de Capacitación',
             icon: 'pi pi-fw pi-graduation-cap',
             to: '/tipo-legal'
