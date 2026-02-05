@@ -59,6 +59,7 @@ import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import ConfirmPopup from 'primevue/confirmpopup'
 import InputSwitch from 'primevue/inputswitch'
+import Badge from 'primevue/badge'
 
 export function setupPrimeVue(app: App) {
   app.use(PrimeVue, {
@@ -119,4 +120,5 @@ export function setupPrimeVue(app: App) {
   app.component('InputOtp', InputOtp)
   app.component('ConfirmPopup', ConfirmPopup)
   app.component('InputSwitch', InputSwitch)
+  app.component('Badge', Badge)
 }

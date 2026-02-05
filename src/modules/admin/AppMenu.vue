@@ -32,12 +32,12 @@ const modelProcurador = ref([
               path: '/causas',
               query: { orderby: 'piso' }
             }*/
-           to: '/lista-paracaidas'
+            to: '/lista-paracaidas'
           },
           {
             label: 'Enlistar Urgencias', //Ordenar Por urgencias
             icon: 'pi pi-fw pi-clock',
-            to:'/lista-urgencias'
+            to: '/lista-urgencias'
             /*to: {
               path: '/causas',
               query: { orderby: 'urg' }
@@ -60,7 +60,7 @@ const modelProcurador = ref([
               path: '/causas',
               query: { orderby: 'cat' }
             }*/
-           to:'/lista-ejecutar'
+            to: '/lista-ejecutar'
           }
         ]
       },
@@ -290,7 +290,6 @@ const modelAbogDependiente = ref([
             label: 'Causas Terminadas',
             icon: 'pi pi-fw pi-check-square',
             to: '/causas-terminadas'
-            
           }
         ]
       },
@@ -366,7 +365,7 @@ const modelTesorero = ref([
               query: { orderby: 'urg' }
             }
           },
-         /* {
+          /* {
             label: 'Causas Inactivas',
             icon: 'pi pi-fw pi-stop-circle',
             to: {
@@ -429,7 +428,7 @@ const modelProcMaestro = ref([
               path: '/causas',
               query: { orderby: 'piso' }
             }*/
-           to:'/lista-paracaidas'
+            to: '/lista-paracaidas'
           },
           {
             label: 'Enlistar Urgencias', //Ordenar Por urgencias
@@ -438,7 +437,7 @@ const modelProcMaestro = ref([
               path: '/causas',
               query: { orderby: 'urg' }
             }*/
-           to:'/lista-urgencias'
+            to: '/lista-urgencias'
           },
           {
             label: `Vencidas Leves <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
@@ -465,7 +464,7 @@ const modelProcMaestro = ref([
               path: '/causas',
               query: { orderby: 'cat' }
             }*/
-           to:'causas-terminadas'
+            to: 'causas-terminadas'
           },
           {
             label: 'Ejecutar Gestiones',
@@ -474,16 +473,14 @@ const modelProcMaestro = ref([
               path: '/causas',
               query: { orderby: 'cat' }
             }*/
-           to:'/lista-ejecutar'
+            to: '/lista-ejecutar'
           }
         ]
       },
       {
         label: 'Actualizar',
         icon: 'pi pi-fw pi-pen-to-square',
-        items: [
-          { label: 'Tribunales', icon: 'pi pi-fw pi-building-columns', to: '/juzgados' }
-        ]
+        items: [{ label: 'Tribunales', icon: 'pi pi-fw pi-building-columns', to: '/juzgados' }]
       },
       {
         label: 'Videoteca',
@@ -536,8 +533,12 @@ const modelAdmin = ref([
             icon: 'pi pi-fw pi-hourglass',
             to: '/causas-orden-vencidas-graves'
           },
-         // { label: 'Causas Inactivas', icon: 'pi pi-fw pi-stop-circle', to: '/mis-paquetes' },
-          { label: 'Causas Terminadas', icon: 'pi pi-fw pi-check-square', to:'/causas-terminadas' },
+          // { label: 'Causas Inactivas', icon: 'pi pi-fw pi-stop-circle', to: '/mis-paquetes' },
+          {
+            label: 'Causas Terminadas',
+            icon: 'pi pi-fw pi-check-square',
+            to: '/causas-terminadas'
+          },
           { label: 'Ejecutar Gestiones', icon: 'pi pi-fw pi-play-circle', to: '/lista-ejecutar' }
         ]
       },
@@ -561,22 +562,46 @@ const modelAdmin = ref([
         icon: 'pi pi-fw pi-address-book',
         items: [
           { label: 'Saldo Causas Activas', icon: 'pi pi-fw pi-chart-line', to: '/saldos-activos' },
-         // { label: 'Saldo Causas Inactivas', icon: 'pi pi-fw pi-chart-bar', to: '/tipo-legal' },
-          { label: 'Saldo Causas Terminadas', icon: 'pi pi-fw pi-chart-scatter', to: '/saldos-terminados' },
-          { label: 'Saldo Por Causa', icon: 'pi pi-fw pi-calculator', to: '/pisos' }
+          // { label: 'Saldo Causas Inactivas', icon: 'pi pi-fw pi-chart-bar', to: '/tipo-legal' },
+          {
+            label: 'Saldo Causas Terminadas',
+            icon: 'pi pi-fw pi-chart-scatter',
+            to: '/saldos-terminados'
+          },
+          {
+            label: 'Saldo Por Causa ',
+            icon: 'pi pi-fw pi-calculator',
+            to: '#',
+            badge: ' Soon',
+            badgeClass: 'p-badge-info p-badge-sm'
+          }
         ]
       },
-      { label: 'Usuarios', icon: 'pi pi-fw pi-users', to: '/billetera-transacciones' },
+      {
+        label: 'Usuarios',
+        icon: 'pi pi-fw pi-users',
+        to: '#',
+        badge: ' Soon',
+        badgeClass: 'p-badge-info p-badge-sm'
+      },
       { label: 'Avance Físico', icon: 'pi pi-fw pi-file-check', to: '/plantillas' },
       {
         label: 'Especiales',
         icon: 'pi pi-fw pi-crown',
         items: [
-          { label: 'Exportar Base de Datos', icon: 'pi pi-fw pi-database', to: '/materia' },
+          {
+            label: 'Exportar Base de Datos',
+            icon: 'pi pi-fw pi-database',
+            to: '#',
+            badge: ' Soon',
+            badgeClass: 'p-badge-info p-badge-sm'
+          },
           {
             label: 'Exportar Personalizado',
             icon: 'pi pi-fw pi-cloud-download',
-            to: '/tipo-legal'
+            to: '#',
+            badge: ' Soon',
+            badgeClass: 'p-badge-info p-badge-sm'
           },
           {
             label: 'Costo Judicial Venta',
@@ -593,7 +618,7 @@ const modelAdmin = ref([
         icon: 'pi pi-fw pi-ticket',
         items: [
           { label: 'Paquetes', icon: 'pi pi-fw pi-box', to: '/paquetes' },
-          { label: 'Operaciones Externas', icon: 'pi pi-fw pi-directions-alt', to: '/materia' },
+         // { label: 'Operaciones Externas', icon: 'pi pi-fw pi-directions-alt', to: '/materia' },
           {
             label: 'Operaciones Internas (A,B,C,D y E)',
             icon: 'pi pi-fw pi-directions',
@@ -617,9 +642,12 @@ const modelAdmin = ref([
           {
             label: 'Operaciones de Capacitación',
             icon: 'pi pi-fw pi-graduation-cap',
-            to: '/tipo-legal'
+            to: '#',
+            badge: ' Soon',
+            badgeClass: 'p-badge-info p-badge-sm'
           },
-          { label: 'Textos Predictivos', icon: 'pi pi-fw pi-file-edit', to: '/tipo-legal' },
+          { label: 'Textos Predictivos ', icon: 'pi pi-fw pi-file-edit', to: '#',badge: ' Soon',
+            badgeClass: 'p-badge-info p-badge-sm' },
           {
             label: 'Todas Las Videotecas',
             icon: 'pi pi-fw pi-folder',
@@ -664,7 +692,11 @@ const modelAdmin = ref([
             ]
           },
           { label: 'Aranceles Profesionales', icon: 'pi pi-fw pi-euro', to: '/arancel-abogados' },
-          { label: 'Terminos y Condiciones', icon: 'pi pi-fw pi-file-check', to: '/terminos-condiciones' }
+          {
+            label: 'Terminos y Condiciones',
+            icon: 'pi pi-fw pi-file-check',
+            to: '/terminos-condiciones'
+          }
         ]
       }
     ]

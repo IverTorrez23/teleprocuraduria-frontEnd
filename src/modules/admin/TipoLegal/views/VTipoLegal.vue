@@ -196,13 +196,13 @@ const saveTipoLegal = async () => {
     <Toolbar class="mb-4">
       <template #start>
         <Button label="New" icon="pi pi-plus" severity="success" class="mr-2" @click="openNew" />
-        <Button
+        <!-- <Button
           label="Delete"
           icon="pi pi-trash"
           severity="danger"
           @click="confirmDeleteSelected"
           :disabled="!selectedTipoLegales || !selectedTipoLegales.length"
-        />
+        /> -->
       </template>
     </Toolbar>
 
@@ -239,7 +239,7 @@ const saveTipoLegal = async () => {
       <template #empty> No se encontraron registros. </template>
       <template #loading> Cargando los registros... </template>
 
-      <Column selectionMode="multiple" style="width: 3rem" :exportable="false"></Column>
+      <!-- <Column selectionMode="multiple" style="width: 3rem" :exportable="false"></Column> -->
       <Column field="id" header="ID" sortable style="min-width: 3rem"></Column>
       <Column field="nombre" header="Nombre" sortable style="min-width: 16rem"></Column>
       <Column field="abreviatura" header="Abreviatura" sortable style="min-width: 16rem"></Column>

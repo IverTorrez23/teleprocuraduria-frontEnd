@@ -23,7 +23,7 @@ const props = defineProps({
   parentItemKey: {
     type: String,
     default: null
-  },
+  }
 })
 
 const isActiveMenu = ref(false)
@@ -103,6 +103,7 @@ const checkActiveRoute = (item) => {
       <i :class="item.icon" class="layout-menuitem-icon"></i>
       <span v-html="item.label"></span>
       <i class="pi pi-fw pi-angle-down layout-submenu-toggler" v-if="item.items"></i>
+      <Badge v-if="item.badge" :value="item.badge" :class="item.badgeClass" />
     </router-link>
     <Transition v-if="item.items && item.visible !== false" name="layout-submenu">
       <ul v-show="root ? true : isActiveMenu" class="layout-submenu">

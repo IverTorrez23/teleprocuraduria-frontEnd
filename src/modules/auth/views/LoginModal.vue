@@ -74,7 +74,7 @@ const onSubmit = async () => {
     }
 
     if (response?.message === 'Error_correo_distinto') {
-      usuarioDistintoError.value = true
+      usuarioDistintoError.value = false //se cambio a false para que cualquier usuario ingrese a un navegador
     } else {
       toast.add({
         severity: 'error',

@@ -172,7 +172,6 @@ const getInitials = (nombre = '', apellido = '') => {
       <div class="flex flex-column align-items-start ml-2">
         <span class="user-name">{{ usuario?.persona?.nombre }}</span>
         <small class="user-role text-500">{{ usuario?.tipo }}</small>
-        
       </div>
 
       <i class="pi pi-angle-down ml-2"></i>
@@ -189,10 +188,12 @@ const getInitials = (nombre = '', apellido = '') => {
         <button class="p-link layout-topbar-button">
           <i class="pi pi-cog"></i>
           <span>Configuración</span>
+          <Badge value="Soon" severity="info" class="ml-1" />
         </button>
         <button class="p-link layout-topbar-button">
           <i class="pi pi-question-circle"></i>
           <span>Help</span>
+          <Badge value="Soon" severity="info" class="ml-1" />
         </button>
         <Divider />
         <button @click="confirmCerrarSesion" class="p-link layout-topbar-button">

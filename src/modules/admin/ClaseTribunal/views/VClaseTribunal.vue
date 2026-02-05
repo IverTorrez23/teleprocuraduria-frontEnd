@@ -223,7 +223,7 @@ const saveClaseTribunal = async () => {
             </div>
           </template>
 
-          <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
+          <!-- <Column selectionMode="multiple" headerStyle="width: 3rem"></Column> -->
           <Column field="id" header="ID" sortable>
             <template #body="slotProps">
               <span class="p-column-title">Id</span>
