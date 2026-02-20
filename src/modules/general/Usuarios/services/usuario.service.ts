@@ -83,26 +83,33 @@ const deleteUsuario = async (id: number): Promise<ServiceResponse<null>> => {
 //si se ocupa
 const listarUsuariosAbogados = async (): Promise<ServiceResponse<IUsuario[]>> => {
   try {
-    const response = await axios.get<{ data: IUsuario[] }>(`${ENDPOINT.listarAbogados()}`)
+    const response = await axios.get<{ message: string; data: IUsuario[] }>(
+      `${ENDPOINT.listarAbogados()}`
+    )
 
     return {
-      success: true,
+      status: 'success',
+      message: response.data.message,
       data: response.data.data
     }
   } catch (error: any) {
-    if (error.response) {
+    // Si el backend respondió con error
+    if (error?.response) {
       const statusCode = error.response.status
-      const errorMessage = error.response.data.message || 'Error en la solicitud al servidor.'
+      const msg = error.response.data?.message || 'Error en la solicitud al servidor.'
+      const errors = error.response.data?.errors
 
       return {
-        success: false,
-        error: `Error ${statusCode}: ${errorMessage}`
+        status: 'error',
+        message: `Error ${statusCode}: ${msg}`,
+        errors
       }
     }
 
+    // Error de red / sin respuesta del servidor
     return {
-      success: false,
-      error: 'Error en la conexión o solicitud fallida.'
+      status: 'error',
+      message: 'Error en la conexión o solicitud fallida.'
     }
   }
 }
@@ -141,40 +148,44 @@ const listarUsuariosAbogadosDependientes = async (
 //si se ocupa
 const listarUsuariosProcurador = async (): Promise<ServiceResponse<IUsuario[]>> => {
   try {
-    const response = await axios.get<{ data: IUsuario[] }>(`${ENDPOINT.listarProcuradores()}`)
+    const response = await axios.get<{ message: string; data: IUsuario[] }>(
+      ENDPOINT.listarProcuradores()
+    )
 
     return {
-      success: true,
+      status: 'success',
+      message: response.data.message,
       data: response.data.data
     }
   } catch (error: any) {
-    if (error.response) {
+    // Si el backend respondió con error
+    if (error?.response) {
       const statusCode = error.response.status
-      const errorMessage = error.response.data.message || 'Error en la solicitud al servidor.'
+      const msg = error.response.data?.message || 'Error en la solicitud al servidor.'
+      const errors = error.response.data?.errors
 
       return {
-        success: false,
-        error: `Error ${statusCode}: ${errorMessage}`
+        status: 'error',
+        message: `Error ${statusCode}: ${msg}`,
+        errors
       }
     }
 
+    // Error de red / sin respuesta del servidor
     return {
-      success: false,
-      error: 'Error en la conexión o solicitud fallida.'
+      status: 'error',
+      message: 'Error en la conexión o solicitud fallida.'
     }
   }
 }
 
 const obtenerUnUsuarioById = async (id: number) => {
   try {
-    const response = await axios.get<{ data: IUsuario }>(
-      `${ENDPOINT.obtenerUnUsuarioById(id)}`
-    )
+    const response = await axios.get<{ data: IUsuario }>(`${ENDPOINT.obtenerUnUsuarioById(id)}`)
     return response.data.data
   } catch (error: any) {
     // Si el backend envía un mensaje específico
-    const mensajeError =
-      error?.response?.data?.message || 'Error al obtener usuario.'
+    const mensajeError = error?.response?.data?.message || 'Error al obtener usuario.'
     throw new Error(mensajeError)
   }
 }

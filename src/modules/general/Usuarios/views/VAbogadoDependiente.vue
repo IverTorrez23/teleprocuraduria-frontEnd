@@ -3,7 +3,7 @@ import { ref, onMounted, watch } from 'vue'
 import { useToast } from 'primevue/usetoast'
 import DataTable, { type DataTableSortEvent } from 'primevue/datatable'
 import Column from 'primevue/column'
-import type { IUsuario } from '../types/usuario.types'
+import type { IPersona, IUsuario } from '../types/usuario.types'
 import usuarioService from '../services/usuario.service'
 import { FilterMatchMode } from 'primevue/api'
 import type { IOpcionesPaginado, IPaginado, ISearch, ISort } from '@/common/common.types'
@@ -119,7 +119,7 @@ const confirmDeleteAbogadoDependiente = (usuarios: IUsuario) => {
 const saveUsuario = async () => {
   submitted.value = true
 
-  usuario.value.name = usuario.value.persona.nombre
+  usuario.value.name = usuario.value.persona?.nombre ?? ''
   usuario.value.tipo = 'ABOGADO_DEPENDIENTE'
 
   try {
@@ -131,9 +131,9 @@ const saveUsuario = async () => {
       if (response.errors) {
         validationErrors.value = response.errors
       }
-      showToast('error', 'Error', response.message)
+      showToast('error', 'Error', response.message ?? '')
     } else {
-      showToast('success', 'Registro exitoso', response.message)
+      showToast('success', 'Registro exitoso', response.message ?? '')
       resetUsuario()
       abogadoDependienteDialog.value = false
       await loadAbogadoDependiente()
@@ -147,9 +147,9 @@ const deleteAbogadoDependiente = async () => {
   try {
     const response = await usuarioService.deleteUsuario(usuario.value.id)
     if (response.status === 'error') {
-      showToast('error', 'Error', response.message)
+      showToast('error', 'Error', response.message ?? '')
     } else {
-      showToast('success', 'Eliminado', response.message)
+      showToast('success', 'Eliminado', response.message ?? '')
       deleteAbogadoDependienteDialog.value = false
       await loadAbogadoDependiente()
     }
@@ -181,7 +181,7 @@ const resetUsuario = () => {
       direccion: '',
       observacion: ''
     }
-  }
+  } as IUsuario
 }
 </script>
 
@@ -191,13 +191,13 @@ const resetUsuario = () => {
     <Toolbar class="mb-4">
       <template #start>
         <Button label="New" icon="pi pi-plus" severity="success" class="mr-2" @click="openNew" />
-        <Button
+        <!-- <Button
           label="Delete"
           icon="pi pi-trash"
           severity="danger"
           @click="confirmDeleteSelected"
           :disabled="!selectedAbogadoDependiente || !selectedAbogadoDependiente.length"
-        />
+        /> -->
       </template>
     </Toolbar>
 
@@ -233,7 +233,7 @@ const resetUsuario = () => {
       <template #empty> No se encontraron registros. </template>
       <template #loading> Cargando los registros... </template>
 
-      <Column selectionMode="multiple" style="width: 3rem" :exportable="false"></Column>
+      <!-- <Column selectionMode="multiple" style="width: 3rem" :exportable="false"></Column> -->
       <Column field="id" header="ID" sortable style="min-width: 3rem"></Column>
       <Column field="persona.nombre" header="Nombre" sortable style="min-width: 16rem"></Column>
       <Column
@@ -291,6 +291,7 @@ const resetUsuario = () => {
         <div class="field col-12 md:col-6">
           <label for="nombre">Nombre</label>
           <InputText
+          v-if="usuario.persona"
             :class="{ 'p-invalid': validationErrors['persona.nombre'] }"
             id="nombre"
             v-model="usuario.persona.nombre"
@@ -303,6 +304,7 @@ const resetUsuario = () => {
         <div class="field col-12 md:col-6">
           <label for="apellido">Apellido</label>
           <InputText
+            v-if="usuario.persona"
             :class="{ 'p-invalid': validationErrors['persona.apellido'] }"
             id="apellido"
             v-model="usuario.persona.apellido"
@@ -314,12 +316,13 @@ const resetUsuario = () => {
 
         <div class="col-12 md:col-6 field">
           <label for="telefono">Teléfono</label>
-          <PhoneInput id="telefono" v-model="usuario.persona.telefono" />
+          <PhoneInput v-if="usuario.persona" id="telefono" v-model="usuario.persona.telefono" />
         </div>
 
         <div class="field col-12 md:col-6">
           <label for="direccion">Dirección</label>
           <InputText
+          v-if="usuario.persona"
             :class="{ 'p-invalid': validationErrors['persona.direccion'] }"
             id="direccion"
             v-model="usuario.persona.direccion"
@@ -358,6 +361,7 @@ const resetUsuario = () => {
         <div class="field col-12">
           <label for="observacion">Observación</label>
           <Textarea
+          v-if="usuario.persona"
             :class="{ 'p-invalid': validationErrors['persona.observacion'] }"
             id="observacion"
             v-model="usuario.persona.observacion"
@@ -385,7 +389,7 @@ const resetUsuario = () => {
     >
       <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-        <span v-if="usuario"
+        <span v-if="usuario.persona"
           >¿Estás segura de que quieres eliminar a <b>{{ usuario.persona.nombre }}</b
           >?</span
         >

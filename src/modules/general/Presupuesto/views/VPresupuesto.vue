@@ -43,13 +43,13 @@ const loadDetallOrden = async () => {
   if (response.data) {
     const orden: IOrdenCodigo = {
       ...response.data,
-      codigoCausa: formatCausaCodigo(response.data.data)
+      codigoCausa: formatCausaCodigo(response.data)
     }
     //detalleOrden.value = orden
     detalleOrden.value = {
-      ...orden.data,
+      ...orden,
       codigoCausa: orden.codigoCausa
-    }
+    } as unknown as IOrden
     presupuesto.value.procurador_id = detalleOrden.value.procurador_id
     if (detalleOrden.value.presupuesto?.id) {
       presupuesto.value.detalle_presupuesto = detalleOrden.value?.presupuesto?.detalle_presupuesto

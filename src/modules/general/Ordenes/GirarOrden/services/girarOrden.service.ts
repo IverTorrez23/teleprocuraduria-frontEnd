@@ -36,7 +36,7 @@ const createOrden = async (orden: Omit<ICrearOrden, 'id'>) => {
   }
 }
 
-const obtenerUnaOrden = async (id?: number): Promise<ServiceResponse<ICrearOrden>> => {
+/*const obtenerUnaOrden = async (id?: number): Promise<ServiceResponse<ICrearOrden>> => {
   try {
     const response = await axios.get(ENDPOINT.obtenerUnaOrden(id))
 
@@ -54,7 +54,28 @@ const obtenerUnaOrden = async (id?: number): Promise<ServiceResponse<ICrearOrden
       message: error.response?.data?.message || "Ocurrió un error al obtener el detalle de la orden."
     }
   }
+}*/
+const obtenerUnaOrden = async (id?: number): Promise<ServiceResponse<ICrearOrden>> => {
+  try {
+    const response = await axios.get<{ message: string; data: ICrearOrden }>(
+      ENDPOINT.obtenerUnaOrden(id)
+    )
+
+    return {
+      status: 'success',
+      data: response.data.data,
+      message: response.data.message
+    }
+
+  } catch (error: any) {
+    return {
+      status: 'error',
+      data: null as any,
+      message: error.response?.data?.message || "Ocurrió un error al obtener el detalle de la orden."
+    }
+  }
 }
+
 const updateOrden = async (orden:ICrearOrden) => {
   try {
     const response = await axios.patch<{ response: ICrearOrden }>(`${ENDPOINT.ORDEN}/${orden.id}`, orden)

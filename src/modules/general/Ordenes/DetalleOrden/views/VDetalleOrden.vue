@@ -83,12 +83,12 @@ const loadDetallOrden = async () => {
   if (response.status === 'success' && response.data) {
     const orden: IOrdenCodigo = {
       ...response.data,
-      codigoCausa: formatCausaCodigo(response.data.data)
+      codigoCausa: formatCausaCodigo(response.data)
     }
     detalleOrden.value = {
-      ...orden.data,
+      ...orden,
       codigoCausa: orden.codigoCausa
-    }
+    }  as unknown as IOrden
     if (detalleOrden.value && detalleOrden.value.descarga?.confirmacion) {
       confirmacion.value.id = detalleOrden.value.descarga?.confirmacion.id
     }

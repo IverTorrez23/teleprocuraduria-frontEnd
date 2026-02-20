@@ -21,12 +21,12 @@ const ENDPOINT = Object.freeze({
 
 const listarDetalleOrden = async (id?: number): Promise<ServiceResponse<IOrden>> => {
   try {
-    const response = await axios.get(ENDPOINT.listarDetalleOrden(id))
+    const response = await axios.get<{ message: string; data: IOrden }>(ENDPOINT.listarDetalleOrden(id))
 
     // Si tu backend envía un campo "message" además de los datos
     return {
       status: 'success',
-      data: response.data,
+      data: response.data.data,
       message: response.data.message || "Detalle de orden obtenido correctamente."
     }
 

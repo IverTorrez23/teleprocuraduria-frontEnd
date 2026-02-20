@@ -21,26 +21,29 @@ const obtenerPorAbogadoId = async (id: number) => {
 
 const listadoConUsuarios = async (): Promise<ServiceResponse<IBilleteraUsuario[]>> => {
   try {
-    const response = await axios.get<{ data: IBilleteraUsuario[] }>(`${ENDPOINT.listadoConUsuarios()}`)
+    const response = await axios.get<{ message: string; data: IBilleteraUsuario[] }>(`${ENDPOINT.listadoConUsuarios()}`)
 
     return {
-      success: true,
+      status: 'success',
+      message: response.data.message,
       data: response.data.data
     }
   } catch (error: any) {
     if (error.response) {
       const statusCode = error.response.status
-      const errorMessage = error.response.data.message || 'Error en la solicitud al servidor.'
+      const msg = error.response.data?.message || 'Error en la solicitud al servidor.'
+      const errors = error.response.data?.errors
 
       return {
-        success: false,
-        error: `Error ${statusCode}: ${errorMessage}`
+        status: 'error',
+        message: `Error ${statusCode}: ${msg}`,
+        errors
       }
     }
 
     return {
-      success: false,
-      error: 'Error en la conexión o solicitud fallida.'
+      status: 'error',
+      message: 'Error en la conexión o solicitud fallida.'
     }
   }
 }

@@ -12,14 +12,11 @@ import OVisorTextCompleto from '@/components/OVisorTextCompleto.vue'
 const toast = useToast()
 const dt = ref()
 const causasSaldosTerminados = ref<ICausa[]>([])
-const materiaDialog = ref(false)
-const deleteMateriaDialog = ref(false)
-const deleteMateriasDialog = ref(false)
 
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS }
 })
-const submitted = ref(false)
+
 
 const loadCausasSaldosTerminados = async () => {
   const response = await causaService.listadoSaldosTerminadosCausas()
@@ -47,10 +44,6 @@ watch(
   }
 )
 
-const hideDialog = () => {
-  materiaDialog.value = false
-  submitted.value = false
-}
 
 const modalTexCompletoVisible = ref(false)
 const fullText = ref('')
@@ -175,97 +168,7 @@ const viewTextCompleto = (text: string, headerModal: string) => {
           ></Column>
         </DataTable>
 
-        <!-- create and edit modal -->
-        <Dialog
-          v-model:visible="materiaDialog"
-          :style="{ width: '450px' }"
-          header="Materia"
-          :modal="true"
-          class="p-fluid"
-        >
-          <div class="field">
-            <label for="nombre">Nombre</label>
-            <InputText
-              id="nombre"
-              v-model.trim="materia.nombre"
-              required="true"
-              autofocus
-              :invalid="submitted && !materia.nombre"
-            />
-            <small class="p-error" v-if="submitted && !materia.nombre">Nombre es requerido.</small>
-          </div>
-          <div class="field">
-            <label for="abreviatura">Abreviatura</label>
-            <InputText
-              id="abreviatura"
-              v-model.trim="materia.abreviatura"
-              required="true"
-              autofocus
-              :invalid="submitted && !materia?.abreviatura"
-            />
-            <small class="p-error" v-if="submitted && !materia?.abreviatura"
-              >Abreviatura es requerido.</small
-            >
-          </div>
-
-          <template #footer>
-            <Button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog" />
-            <Button label="Save" icon="pi pi-check" class="p-button-text" @click="saveMateria" />
-          </template>
-        </Dialog>
-
-        <!-- dialog delete materia -->
-        <Dialog
-          v-model:visible="deleteMateriaDialog"
-          :style="{ width: '450px' }"
-          header="Confirm"
-          :modal="true"
-        >
-          <div class="flex align-items-center justify-content-center">
-            <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-            <span v-if="materia"
-              >¿Estás segura de que quieres eliminar <b>{{ materia.nombre }}</b
-              >?</span
-            >
-          </div>
-          <template #footer>
-            <Button
-              label="No"
-              icon="pi pi-times"
-              class="p-button-text"
-              @click="deleteMateriaDialog = false"
-            />
-            <Button label="Yes" icon="pi pi-check" class="p-button-text" @click="deleteMateria" />
-          </template>
-        </Dialog>
-
-        <Dialog
-          v-model:visible="deleteMateriasDialog"
-          :style="{ width: '450px' }"
-          header="Confirm"
-          :modal="true"
-        >
-          <div class="flex align-items-center justify-content-center">
-            <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-            <span v-if="materia"
-              >¿Estás seguro de que deseas eliminar las materias seleccionadas?</span
-            >
-          </div>
-          <template #footer>
-            <Button
-              label="No"
-              icon="pi pi-times"
-              class="p-button-text"
-              @click="deleteMateriasDialog = false"
-            />
-            <Button
-              label="Yes"
-              icon="pi pi-check"
-              class="p-button-text"
-              @click="deleteSelectedMaterias"
-            />
-          </template>
-        </Dialog>
+        
       </div>
     </div>
   </div>

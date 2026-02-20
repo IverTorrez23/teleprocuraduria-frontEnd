@@ -340,7 +340,7 @@ const listadoSinPaquete = async () => {
 
 const createCausa = async (causa: Omit<ICausa, 'id'>) => {
   try {
-    const response = await axios2.post<{ response: ICausa }>(ENDPOINT.CAUSAS, causa)
+    const response = await axios2.post<{ message: string; data: ICausa }>(ENDPOINT.CAUSAS, causa)
     return response?.data?.data
   } catch (error) {
     if (isAxiosError(error)) {
