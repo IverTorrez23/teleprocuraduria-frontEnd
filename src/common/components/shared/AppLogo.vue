@@ -13,11 +13,11 @@ const logoUrl = computed(() => {
 defineProps<{
   width?: string
   height?: string
-  class?: string
+  imgClass?: string
   alt?: string
 }>()
 </script>
 
 <template>
-  <img :src="logoUrl" :alt="alt || 'Logo'" :width="width" :height="height" :class="class" />
+  <img :src="logoUrl" :alt="alt || 'Logo'" :width="width" :height="height" :class="imgClass" />
 </template>

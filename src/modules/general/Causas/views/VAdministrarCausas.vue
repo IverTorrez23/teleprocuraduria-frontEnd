@@ -278,7 +278,7 @@ const loadPlantillas = async () => {
 const loadAbogados = async () => {
   const result = await usuarioService.listarUsuariosAbogados()
 
-  if (result.success) {
+  if (result.data) {
     abogados.value = []
     if (Array.isArray(result.data) && result.data.length > 0) {
       // Mapeamos los abogados obtenidos desde el servicio
@@ -375,7 +375,7 @@ onMounted(() => {
   loadTipoLegalesConMateria()
   loadClaseTribunales()
   loadJuzgados()
-  console.log('datos user', usuario.value)
+  //console.log('datos user', usuario.value)
 })
 watch(
   () => filters.value.global.value,
@@ -533,6 +533,7 @@ const saveCausa = async () => {
         causa.value.tiene_billetera = 0
       }
       const response = await CausaService.createCausa(causa.value)
+      console.log('response?.id',response?.id)
       if (response?.id) {
         //Registro de participantes
         await Promise.all(

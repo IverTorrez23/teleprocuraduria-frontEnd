@@ -40,12 +40,12 @@ const loadDetallOrden = async () => {
   if (response.data) {
     const orden: IOrdenCodigo = {
       ...response.data,
-      codigoCausa: formatCausaCodigo(response.data.data)
+      codigoCausa: formatCausaCodigo(response.data)
     }
     detalleOrden.value = {
-      ...orden.data,
+      ...orden,
       codigoCausa: orden.codigoCausa
-    }
+    }  as unknown as IOrden
 
     idCausa.value = detalleOrden.value.causa_id
   } else {

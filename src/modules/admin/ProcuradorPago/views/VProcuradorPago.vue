@@ -76,7 +76,7 @@ const loadOrdenesParaPagoAProcurador = async (id: number) => {
 const loadProcuradores = async () => {
   const result = await usuarioService.listarUsuariosProcurador()
 
-  if (result.success) {
+  if (result.data) {
     procuradores.value =
       result.data?.map((procurador) => ({
         ...procurador,
@@ -86,7 +86,7 @@ const loadProcuradores = async () => {
     toast.add({
       severity: 'error',
       summary: 'Error',
-      detail: result.error || 'No se pudieron obtener los procuradores.',
+      detail: result.errors || 'No se pudieron obtener los procuradores.',
       life: 3000
     })
   }

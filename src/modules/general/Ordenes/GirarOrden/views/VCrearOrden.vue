@@ -90,9 +90,8 @@ const loadDetallOrden = async () => {
   const response = await girarOrdenService.obtenerUnaOrden(idOrden)
 
   if (response.status === 'success' && response.data) {
-    console.log('response.data', response.data.data)
-    crearOrden.value = response.data.data
-    console.log('crearOrden.value', crearOrden.value)
+    crearOrden.value = response.data
+    //console.log('crearOrden.value', crearOrden.value)
   } else {
     toast.add({
       severity: 'error',

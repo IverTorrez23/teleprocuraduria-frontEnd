@@ -101,7 +101,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch, nextTick } from 'vue'
-import L from 'leaflet'
+//import L from 'leaflet'
+import * as L from 'leaflet'
+//import type { Map as LeafletMap, Marker } from 'leaflet'
+import type { Map as LeafletMap, Marker as LeafletMarker } from 'leaflet'
+
 import { useToast } from 'primevue/usetoast'
 import Dialog from 'primevue/dialog'
 import Button from 'primevue/button'
@@ -130,8 +134,8 @@ const emit = defineEmits([
 const toast = useToast()
 const isVisible = ref(props.modelValue)
 const mapContainer = ref<HTMLElement | null>(null)
-const map = ref<L.Map | null>(null)
-const marker = ref<L.Marker | null>(null)
+const map = ref<LeafletMap  | null>(null)
+const marker = ref<LeafletMarker | null>(null)
 const selectedLocation = ref<[number, number]>([0, 0])
 const zoom = ref(props.initialZoom)
 const minZoom = 2
@@ -151,7 +155,7 @@ const initMap = () => {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map.value)
+    }).addTo(map.value as unknown as L.Map)
 
     map.value.on('locationfound', (e: L.LocationEvent) => {
       selectedLocation.value = [e.latlng.lat, e.latlng.lng]
@@ -166,7 +170,7 @@ const initMap = () => {
             'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
           shadowSize: [41, 41]
         })
-      }).addTo(map.value!)
+      }).addTo(map.value as unknown as L.Map)
 
       map.value!.setView(e.latlng, zoom.value)
       updateMarkerPosition(e.latlng)
@@ -183,7 +187,7 @@ const initMap = () => {
     map.value.on('click', (e: L.LeafletMouseEvent) => {
       updateMarkerPosition(e.latlng)
     })
-
+if (!marker.value) return
     marker.value.on('dragend', () => {
       if (marker.value) {
         updateMarkerPosition(marker.value.getLatLng())
@@ -196,7 +200,7 @@ const initMap = () => {
       }
     })
 
-    L.control.scale().addTo(map.value)
+    L.control.scale().addTo(map.value as unknown as L.Map)
   }
 }
 
