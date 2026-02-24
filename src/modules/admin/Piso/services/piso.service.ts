@@ -6,8 +6,8 @@ import { CrearRespuestaPaginado } from '@/common/utils/respuestas-paginado'
 const ENDPOINT = Object.freeze({
   //PISOS: '/pisos',
   PISOS: '/pisos',
-  listarPiso(id?: number) {
-    return this.PISOS + `/listar/${id ? id : ''}`
+  listarPiso() {
+    return this.PISOS + `/listar-activos`
   },
   deletePiso(id: number) {
     return this.PISOS + `/eliminar/${id}`
@@ -47,9 +47,9 @@ const getPisos = async (
     return CrearRespuestaPaginado()
   }
 }
-const listarPisos = async (id?: number) => {
+const listarPisos = async () => {
   const response = await axios
-    .get<{ data: IPiso[] }>(`${ENDPOINT.listarPiso(id)}`)
+    .get<{ data: IPiso[] }>(`${ENDPOINT.listarPiso()}`)
     .catch(() => undefined)
 
   return response?.data.data

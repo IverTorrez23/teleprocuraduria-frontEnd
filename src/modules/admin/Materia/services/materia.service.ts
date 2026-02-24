@@ -5,8 +5,8 @@ import { CrearRespuestaPaginado } from '@/common/utils/respuestas-paginado'
 
 const ENDPOINT = Object.freeze({
   MATERIAS: '/materias',
-  listarMateria(id?: number) {
-    return this.MATERIAS + `/listar/${id ? id : ''}`
+  listarMateria() {
+    return this.MATERIAS + `/listar-activos`
   },
   deleteMateria(id: number) {
     return this.MATERIAS + `/eliminar/${id}`
@@ -47,12 +47,26 @@ const getMaterias = async (
   }
 }
 
-const listarMaterias = async (id?: number) => {
+/*const listarMaterias = async (id?: number) => {
   const response = await axios
     .get<{ data: IMateria[] }>(`${ENDPOINT.listarMateria(id)}`)
     .catch(() => undefined)
 
   return response?.data.data
+}*/
+
+const listarMaterias = async (): Promise<IMateria[] | undefined> => {
+  try {
+    const response = await axios.get<{
+      message: string
+      data: IMateria[]
+    }>(ENDPOINT.listarMateria())
+
+    return response.data.data
+  } catch (error) {
+    console.error('Error al listar materias:', error)
+    return undefined
+  }
 }
 
 const createMateria = async (materia: Omit<IMateria, 'id'>) => {

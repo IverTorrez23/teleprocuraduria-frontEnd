@@ -499,12 +499,12 @@ const filtrarTransacciones = async ({ desde, hasta }: { desde: Date; hasta: Date
         <Toolbar class="mb-4">
           <template #start>
             <div class="my-2">
-              <Button
+              <!-- <Button
                 label="Depositar"
                 icon="pi pi-plus"
                 class="p-button-success mr-2"
                 @click="openNew"
-              />
+              /> -->
             </div>
           </template>
 
