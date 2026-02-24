@@ -36,7 +36,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const login = async (credenciales: ICredenciales): Promise<ServiceResponse<any>> => {
-    const lastUserEmail = localStorage.getItem('lastUserEmail')
+    /*const lastUserEmail = localStorage.getItem('lastUserEmail')
 
     if (lastUserEmail && credenciales.email !== lastUserEmail) {
       return {
@@ -44,7 +44,7 @@ export const useAuthStore = defineStore('auth', () => {
         message: 'Error_correo_distinto',
         errors: { email: [''] }
       }
-    }
+    }*/
 
     try {
       const response = await AutorizacionService.iniciarSesion(credenciales)

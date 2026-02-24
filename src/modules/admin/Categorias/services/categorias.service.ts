@@ -6,8 +6,8 @@ import type { ICategorias } from '../categorias.types'
 
 const ENDPOINT = Object.freeze({
   CATEGORIAS: '/categorias',
-  listarCategoria(id?: number) {
-    return this.CATEGORIAS + `/listar/${id ? id : ''}`
+  listarCategoria() {
+    return this.CATEGORIAS + `/listar-activos`
   },
   deleteCategoria(id: number) {
     return this.CATEGORIAS + `/eliminar/${id}`
@@ -72,12 +72,26 @@ const deleteCategoria = async (categoria: ICategorias) => {
 
   return !!response
 }
-const listarCategorias = async (id?: number) => {
+/*const listarCategorias = async (id?: number) => {
   const response = await axios
     .get<{ data: ICategorias[] }>(`${ENDPOINT.listarCategoria(id)}`)
     .catch(() => undefined)
 
   return response?.data.data
+}*/
+
+const listarCategorias = async (): Promise<ICategorias[] | undefined> => {
+  try {
+    const response = await axios.get<{
+      message: string
+      data: ICategorias[]
+    }>(ENDPOINT.listarCategoria())
+
+    return response.data.data
+  } catch (error) {
+    console.error('Error al listar categoria:', error)
+    return undefined
+  }
 }
 
 export default {

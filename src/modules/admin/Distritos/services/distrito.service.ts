@@ -6,8 +6,8 @@ import { CrearRespuestaPaginado } from '@/common/utils/respuestas-paginado'
 const ENDPOINT = Object.freeze({
   //DISTRITOS: '/distritos',
   DISTRITOS: '/distritos',
-  listarDistrito(id?: number) {
-    return this.DISTRITOS + `/listar/${id ? id : ''}`
+  listarDistrito() {
+    return this.DISTRITOS + `/listar-activos`
   },
   deleteDistrito(id: number) {
     return this.DISTRITOS + `/eliminar/${id}`
@@ -48,9 +48,9 @@ const getDistritos = async (
   }
 }
 
-const listarDistritos = async (id?: number) => {
+const listarDistritos = async () => {
   const response = await axios
-    .get<{ data: IDistrito[] }>(`${ENDPOINT.listarDistrito(id)}`)
+    .get<{ data: IDistrito[] }>(`${ENDPOINT.listarDistrito()}`)
     .catch(() => undefined)
 
   return response?.data.data

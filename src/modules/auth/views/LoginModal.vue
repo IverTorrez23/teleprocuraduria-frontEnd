@@ -52,9 +52,9 @@ const onSubmit = async () => {
   loading.value = true
   validationErrors.value = {}
   usuarioDistintoError.value = false
-
+console.log('validationErrors.value', validationErrors.value)
   const response = await authStore.login(form.value)
-
+console.log('response', response)
   if (response?.status === 'success') {
     toast.add({
       severity: 'success',

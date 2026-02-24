@@ -6,8 +6,8 @@ import { CrearRespuestaPaginado } from '@/common/utils/respuestas-paginado'
 
 const ENDPOINT = Object.freeze({
   JUZGADOS: '/juzgados',
-  listarJuzgado(id?: number) {
-    return this.JUZGADOS + `/listar/${id ? id : ''}`
+  listarJuzgado() {
+    return this.JUZGADOS + `/listar-activos`
   },
   deleteJuzgado(id: number) {
     return this.JUZGADOS + `/eliminar/${id}`
@@ -48,12 +48,25 @@ const getJuzgados = async (
   }
 }
 
-const listarJuzgados = async (id?: number) => {
+/*const listarJuzgados = async (id?: number) => {
   const response = await axios
     .get<{ data: IJuzgado[] }>(`${ENDPOINT.listarJuzgado(id)}`)
     .catch(() => undefined)
 
   return response?.data.data
+}*/
+const listarJuzgados = async (): Promise<IJuzgado[] | undefined> => {
+  try {
+    const response = await axios.get<{
+      message: string
+      data: IJuzgado[]
+    }>(ENDPOINT.listarJuzgado())
+
+    return response.data.data
+  } catch (error) {
+    console.error('Error al listar juzgado:', error)
+    return undefined
+  }
 }
 
 const createJuzgado = async (formData: FormData) => {

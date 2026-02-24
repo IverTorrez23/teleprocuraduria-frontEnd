@@ -6,8 +6,8 @@ import type { IPlantilla } from '../types/plantilla.types'
 
 const ENDPOINT = Object.freeze({
   PLANTILLAS: '/avance-plantillas',
-  listarPlantillas(id?: number) {
-    return this.PLANTILLAS + `/listar/${id ? id : ''}`
+  listarPlantillas() {
+    return this.PLANTILLAS + `/listar-activos`
   },
 
   listarPlantillaPorId(id: number) {
@@ -52,12 +52,26 @@ const getPlantillas = async (
   }
 }
 
-const listarPlantillas = async (id?: number) => {
+/*const listarPlantillas = async (id?: number) => {
   const response = await axios
     .get<{ data: IPlantilla[] }>(`${ENDPOINT.listarPlantillas(id)}`)
     .catch(() => undefined)
 
   return response?.data.data
+}*/
+
+const listarPlantillas = async (): Promise<IPlantilla[] | undefined> => {
+  try {
+    const response = await axios.get<{
+      message: string
+      data: IPlantilla[]
+    }>(ENDPOINT.listarPlantillas())
+
+    return response.data.data
+  } catch (error) {
+    console.error('Error al listar plantilla:', error)
+    return undefined
+  }
 }
 
 const listarPlantillaPorId = async (id: number) => {
