@@ -580,9 +580,24 @@ const modelAdmin = ref([
       {
         label: 'Usuarios',
         icon: 'pi pi-fw pi-users',
-        to: '#',
-        badge: ' Soon',
-        badgeClass: 'p-badge-info p-badge-sm'
+        items: [
+          { label: 'Abogados Lideres', icon: 'pi pi-fw pi-chart-line', to: '/abogados-lideres' },
+          {
+            label: 'Abogados Independientes',
+            icon: 'pi pi-fw pi-chart-scatter',
+            to: '/abogados-independientes'
+          },
+          {
+            label: 'Procuradores',
+            icon: 'pi pi-fw pi-calculator',
+            to: '/procuradores'
+          },
+          {
+            label: 'Usuarios del sistema',
+            icon: 'pi pi-fw pi-calculator',
+            to: '/system-users'
+          }
+        ]
       },
       { label: 'Avance Físico', icon: 'pi pi-fw pi-file-check', to: '/plantillas' },
       {
@@ -618,7 +633,7 @@ const modelAdmin = ref([
         icon: 'pi pi-fw pi-ticket',
         items: [
           { label: 'Paquetes', icon: 'pi pi-fw pi-box', to: '/paquetes' },
-         // { label: 'Operaciones Externas', icon: 'pi pi-fw pi-directions-alt', to: '/materia' },
+          // { label: 'Operaciones Externas', icon: 'pi pi-fw pi-directions-alt', to: '/materia' },
           {
             label: 'Operaciones Internas (A,B,C,D y E)',
             icon: 'pi pi-fw pi-directions',
@@ -646,8 +661,13 @@ const modelAdmin = ref([
             badge: ' Soon',
             badgeClass: 'p-badge-info p-badge-sm'
           },
-          { label: 'Textos Predictivos ', icon: 'pi pi-fw pi-file-edit', to: '#',badge: ' Soon',
-            badgeClass: 'p-badge-info p-badge-sm' },
+          {
+            label: 'Textos Predictivos ',
+            icon: 'pi pi-fw pi-file-edit',
+            to: '#',
+            badge: ' Soon',
+            badgeClass: 'p-badge-info p-badge-sm'
+          },
           {
             label: 'Todas Las Videotecas',
             icon: 'pi pi-fw pi-folder',

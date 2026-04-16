@@ -10,6 +10,7 @@ import type { IOpcionesPaginado, IPaginado, ISearch, ISort } from '@/common/comm
 import { getEstado } from '@/common/utils/statusUtils'
 import { useAuthStore } from '@/modules/auth/stores/auth.store'
 import { storeToRefs } from 'pinia'
+import { TipoUserSystem } from '@/constants/constants'
 
 const toast = useToast()
 const dt = ref()
@@ -51,7 +52,7 @@ const pagination = ref<IPaginado>({
   currentPage: 1
 })
 
-const loadAbogadoDependiente = async (event?: DataTableSortEvent) => {
+const loadSystemUsers = async (event?: DataTableSortEvent) => {
   const page = event ? event.first / event.rows + 1 : pagination.value.currentPage
   const perPage = event ? event.rows : pagination.value.rowsPerPage
   const search: ISearch[] = filters.value.global.value
@@ -72,8 +73,7 @@ const loadAbogadoDependiente = async (event?: DataTableSortEvent) => {
     search: search,
     sort: sort
   }
-  const response = await usuarioService.listarUsuariosAbogadosDependientes(
-    usuarioSession.value?.id || 0,
+  const response = await usuarioService.listarSystemUsersPaginado(
     opciones
   )
   usuarios.value = response.result
@@ -84,12 +84,12 @@ const loadAbogadoDependiente = async (event?: DataTableSortEvent) => {
   pagination.value.currentPage = response.pagination.currentPage
 }
 
-onMounted(loadAbogadoDependiente)
+onMounted(loadSystemUsers)
 
 watch(
   () => filters.value.global.value,
   () => {
-    loadAbogadoDependiente()
+    loadSystemUsers()
   }
 )
 
@@ -120,7 +120,7 @@ const saveUsuario = async () => {
   submitted.value = true
 
   usuario.value.name = usuario.value.persona?.nombre ?? ''
-  usuario.value.tipo = 'ABOGADO_DEPENDIENTE'
+  
 
   try {
     const response = usuario.value.id
@@ -136,7 +136,7 @@ const saveUsuario = async () => {
       showToast('success', 'Registro exitoso', response.message ?? '')
       resetUsuario()
       abogadoDependienteDialog.value = false
-      await loadAbogadoDependiente()
+      await loadSystemUsers()
     }
   } catch (error) {
     showToast('error', 'Error', 'No se pudo guardar el usuario')
@@ -151,7 +151,7 @@ const deleteAbogadoDependiente = async () => {
     } else {
       showToast('success', 'Eliminado', response.message ?? '')
       deleteAbogadoDependienteDialog.value = false
-      await loadAbogadoDependiente()
+      await loadSystemUsers()
     }
   } catch (error) {
     showToast('error', 'Error', 'No se pudo eliminar el usuario')
@@ -215,12 +215,12 @@ const resetUsuario = () => {
       currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords}"
       :autoLayout="true"
       :lazy="true"
-      @page="loadAbogadoDependiente"
-      @sort="loadAbogadoDependiente"
+      @page="loadSystemUsers"
+      @sort="loadSystemUsers"
     >
       <template #header>
         <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
-          <h4 class="m-0">Administrar Abogados</h4>
+          <h4 class="m-0">Usuarios del sistema</h4>
 
           <IconField iconPosition="left">
             <InputIcon>
@@ -241,6 +241,7 @@ const resetUsuario = () => {
         header="Apellidos"
         style="min-width: 16rem"
       ></Column>
+      <Column field="tipo" header="Tipo" style="min-width: 6rem"> </Column>
       <Column field="email" header="Correo" style="min-width: 6rem"> </Column>
       <Column field="persona.telefono" header="Teléfono" style="min-width: 6rem"> </Column>
       <Column field="estado" header="Estado" style="min-width: 6rem">
@@ -357,6 +358,20 @@ const resetUsuario = () => {
             :toggleMask="true"
           />
         </div>
+        <div class="field col-12 md:col-6">
+            <label for="tipo">Tipo</label>
+            <Dropdown
+              id="tipo"
+              v-model="usuario.tipo"
+              :options="TipoUserSystem"
+              optionLabel="label"
+              optionValue="value"
+              filter
+              filterPlaceholder="Buscar Tipo"
+              :invalid="submitted && !usuario?.tipo"
+            />
+            <small class="p-error" v-if="submitted && !usuario?.tipo">Tipo es requerido.</small>
+          </div>
 
         <div class="field col-12">
           <label for="observacion">Observación</label>

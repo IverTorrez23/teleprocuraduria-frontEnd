@@ -17,7 +17,15 @@ const ENDPOINT = {
   updateUsuario: (id: number) => `${BASE}/actualizar/${id}`,
   obtenerUnUsuarioById: (id: number) => `${BASE}/obtener-uno/${id}`,
   listarAbogadosDependientes: (abogadoLiderId: number) =>
-    `${BASE}/abogados-dependientes/${abogadoLiderId}/paginado`
+    `${BASE}/abogados-dependientes/${abogadoLiderId}/paginado`,
+  listarAbogadosLideresPaginado: () =>
+    `${BASE}/abogados-lider-list`,
+  listarAbogadosIndPaginado: () =>
+    `${BASE}/abogados-ind-list`,
+  listarProcuradoresPaginado: () =>
+    `${BASE}/procuradores-list`,
+  listarSystemUsersPaginado: () =>
+    `${BASE}/system-users`
 }
 
 //no se ocupa
@@ -189,6 +197,125 @@ const obtenerUnUsuarioById = async (id: number) => {
     throw new Error(mensajeError)
   }
 }
+const listarAbogadosLideresPaginado = async (
+  options: IOpcionesPaginado
+): Promise<{ pagination: IPaginado; result: IUsuario[] }> => {
+  try {
+    const request = await axios.get(ENDPOINT.listarAbogadosLideresPaginado(), {
+      params: {
+        page: options.page,
+        perPage: options.perPage,
+        search: JSON.stringify(options.search),
+        sort: JSON.stringify(options.sort)
+      }
+    })
+    const data = request.data
+    const pagination: IPaginado = {
+      rowsPerPage: data.meta.per_page,
+      rowsNumber: data.meta.total,
+      totalItems: data.meta.total,
+      itemCount: data.meta.to,
+      perPage: data.meta.per_page,
+      currentPage: data.meta.current_page
+    }
+    return {
+      pagination,
+      result: data.data
+    }
+  } catch (error) {
+    return CrearRespuestaPaginado()
+  }
+}
+
+const listarAbogadosIndPaginado = async (
+  options: IOpcionesPaginado
+): Promise<{ pagination: IPaginado; result: IUsuario[] }> => {
+  try {
+    const request = await axios.get(ENDPOINT.listarAbogadosIndPaginado(), {
+      params: {
+        page: options.page,
+        perPage: options.perPage,
+        search: JSON.stringify(options.search),
+        sort: JSON.stringify(options.sort)
+      }
+    })
+    const data = request.data
+    const pagination: IPaginado = {
+      rowsPerPage: data.meta.per_page,
+      rowsNumber: data.meta.total,
+      totalItems: data.meta.total,
+      itemCount: data.meta.to,
+      perPage: data.meta.per_page,
+      currentPage: data.meta.current_page
+    }
+    return {
+      pagination,
+      result: data.data
+    }
+  } catch (error) {
+    return CrearRespuestaPaginado()
+  }
+}
+
+const listarProcuradoresPaginado = async (
+  options: IOpcionesPaginado
+): Promise<{ pagination: IPaginado; result: IUsuario[] }> => {
+  try {
+    const request = await axios.get(ENDPOINT.listarProcuradoresPaginado(), {
+      params: {
+        page: options.page,
+        perPage: options.perPage,
+        search: JSON.stringify(options.search),
+        sort: JSON.stringify(options.sort)
+      }
+    })
+    const data = request.data
+    const pagination: IPaginado = {
+      rowsPerPage: data.meta.per_page,
+      rowsNumber: data.meta.total,
+      totalItems: data.meta.total,
+      itemCount: data.meta.to,
+      perPage: data.meta.per_page,
+      currentPage: data.meta.current_page
+    }
+    return {
+      pagination,
+      result: data.data
+    }
+  } catch (error) {
+    return CrearRespuestaPaginado()
+  }
+}
+
+const listarSystemUsersPaginado = async (
+  options: IOpcionesPaginado
+): Promise<{ pagination: IPaginado; result: IUsuario[] }> => {
+  try {
+    const request = await axios.get(ENDPOINT.listarSystemUsersPaginado(), {
+      params: {
+        page: options.page,
+        perPage: options.perPage,
+        search: JSON.stringify(options.search),
+        sort: JSON.stringify(options.sort)
+      }
+    })
+    const data = request.data
+    const pagination: IPaginado = {
+      rowsPerPage: data.meta.per_page,
+      rowsNumber: data.meta.total,
+      totalItems: data.meta.total,
+      itemCount: data.meta.to,
+      perPage: data.meta.per_page,
+      currentPage: data.meta.current_page
+    }
+    return {
+      pagination,
+      result: data.data
+    }
+  } catch (error) {
+    return CrearRespuestaPaginado()
+  }
+}
 export default {
   getUsuariosPaginado,
   listarUsuarios,
@@ -198,5 +325,9 @@ export default {
   listarUsuariosAbogados,
   listarUsuariosProcurador,
   listarUsuariosAbogadosDependientes,
-  obtenerUnUsuarioById
+  obtenerUnUsuarioById,
+  listarAbogadosLideresPaginado,
+  listarAbogadosIndPaginado,
+  listarProcuradoresPaginado,
+  listarSystemUsersPaginado
 }
