@@ -86,6 +86,12 @@ export const TipoPaquete = [
   { label: 'LIDER', value: 'ABOGADO_LIDER' },
   { label: 'INDEPENDIENTE', value: 'ABOGADO_INDEPENDIENTE' }
 ]
+export const TipoUserSystem = [
+  { label: 'ADMINISTRADOR', value: 'ADMINISTRADOR' },
+  { label: 'CONTADOR', value: 'CONTADOR' },
+  { label: 'PROCURADOR_MAESTRO', value: 'PROCURADOR_MAESTRO' },
+  { label: 'OBSERVADOR', value: 'OBSERVADOR' }
+]
 
 export const TinymceApiKey = 'md43nzm1il39i9jiztv2l0add2tl5i0ndyidaeukzkh4d1dm' //Api key ivermenacho@gmial.com
 

@@ -676,6 +676,26 @@ const router = createRouter({
           name: 'DepositoBilletera',
           component: () => import('@/modules/general/Billetera/views/VDepositoFromAdmin.vue')
         },
+        {
+          path: '/abogados-lideres',
+          name: 'AbogLideres',
+          component: () => import('@/modules/general/Usuarios/views/VAbogadosLideresList.vue')
+        },
+        {
+          path: '/abogados-independientes',
+          name: 'AbogIndep',
+          component: () => import('@/modules/general/Usuarios/views/VAbogadosIndependientes.vue')
+        },
+        {
+          path: '/procuradores',
+          name: 'Procuradores',
+          component: () => import('@/modules/general/Usuarios/views/VProcuradoresList.vue')
+        },
+        {
+          path: '/system-users',
+          name: 'SystemUsers',
+          component: () => import('@/modules/general/Usuarios/views/VUsuariosSistema.vue')
+        },
         ...abogadoLiderRoutes,
         {
           path: '/:pathMatch(.*)*',
