@@ -11,6 +11,7 @@ import { baseUrlResource } from '@/config/constants'
 const isHidden = ref(false)
 const toast = useToast()
 const imgIndex = ref('')
+const imgIndexMobile = ref('')
 const tituloIndex = ref('')
 const textoIndex = ref('')
 
@@ -30,6 +31,9 @@ const loadDatosTablaConfig = async () => {
     datosTablaConfig.value = response
     imgIndex.value = datosTablaConfig.value.imagen_index
       ? `${baseUrlResource}/${datosTablaConfig.value.imagen_index}`
+      : '/demo/images/blocks/hero/hero-1.png'
+    imgIndexMobile.value = datosTablaConfig.value.imagen_index_mobil
+      ? `${baseUrlResource}/${datosTablaConfig.value.imagen_index_mobil}`
       : '/demo/images/blocks/hero/hero-1.png'
     tituloIndex.value = datosTablaConfig.value.titulo_index
       ? datosTablaConfig.value.titulo_index
@@ -73,45 +77,26 @@ onUnmounted(() => {
 })
 
 function scrollToPaquetes() {
-  const paqueteSection = document.getElementById("paquetes");
+  const paqueteSection = document.getElementById('paquetes')
   if (paqueteSection) {
-    paqueteSection.scrollIntoView({ behavior: "smooth" });
+    paqueteSection.scrollIntoView({ behavior: 'smooth' })
   }
 }
 </script>
 
 <template>
   <div class="landing-wrapper w-full overflow-hidden">
-    <div id="inicio" class="grid grid-nogutter surface-section text-800 w-full">
-      <div class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center">
-        <section>
-          <span class="block text-6xl mb-1 font-bold mb-3">
-            {{ tituloIndex }}
-          </span>
-          <!-- <div class="text-6xl text-primary font-bold mb-3">your visitors deserve to see</div> -->
-          <p class="mt-0 mb-4 text-700 line-height-3">
-            {{ textoIndex }}
-          </p>
+    <div id="inicio" class="inicio-container">
+      <div class="">
+        <!-- imagen horizontal -->
+        <!-- <img :src="imgIndex" alt="img" class="md:ml-auto block md:h-full w-full" /> -->
+        <picture>
+          <!-- Imagen para móvil -->
+          <source media="(max-width: 768px)" :srcset="imgIndexMobile" />
 
-          <Button
-            label="Paquetes"
-            icon="pi pi-arrow-down"
-            type="button"
-            class="mr-3 p-button-raised p-button-sm"
-            @click="scrollToPaquetes"
-          ></Button>
-          
-        </section>
-      </div>
-      <div class="col-12 md:col-6 overflow-hidden image-container">
-        <img :src="imgIndex" alt="img" class="hero-image md:ml-auto block md:h-full w-full" />
-        <div :class="['slidedown-icon-container', { hidden: isHidden }]">
-          <span
-            class="slidedown-icon h-3rem w-3rem bg-primary border-circle inline-flex align-items-center justify-content-center"
-          >
-            <i class="pi pi-arrow-down" style="font-size: 1rem" />
-          </span>
-        </div>
+          <!-- Imagen para desktop -->
+          <img :src="imgIndex" alt="img" class="md:ml-auto block md:h-full w-full" />
+        </picture>
       </div>
     </div>
     <div id="paquetes" class="surface-ground px-4 py-8 md:px-6 lg:px-8">
@@ -195,5 +180,11 @@ function scrollToPaquetes() {
   animation: slidedown-icon;
   animation-duration: 3s;
   animation-iteration-count: infinite;
+}
+
+@media (max-width: 768px) {
+  .inicio-container {
+    height: 70vh; /* no tan alto en móvil */
+  }
 }
 </style>

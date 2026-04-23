@@ -21,6 +21,7 @@ const datosTablaConfig = ref<ITablaConfig>({
   titulo_index: '',
   texto_index: '',
   imagen_index: '',
+  imagen_index_mobil: '',
   imagen_logo: '',
   nombre: '',
   archivo_url: '',
@@ -38,6 +39,7 @@ const filters = ref({
 })
 const submitted = ref(false)
 const imgIndex = ref('')
+const imgIndexMobile = ref('')
 const imgLogo = ref('')
 
 const logoUrl = computed(() => {
@@ -52,6 +54,12 @@ const loadDatosTablaConfig = async () => {
       imgIndex.value = `${baseUrlResource}/${tablaConfigSelected.value.imagen_index}`
     } else {
       imgIndex.value = '/demo/images/blocks/hero/hero-1.png'
+    }
+
+    if (tablaConfigSelected.value.imagen_index_mobil) {
+      imgIndexMobile.value = `${baseUrlResource}/${tablaConfigSelected.value.imagen_index_mobil}`
+    } else {
+      imgIndexMobile.value = '/demo/images/blocks/hero/hero-1.png'
     }
 
     if (tablaConfigSelected.value.imagen_logo) {
@@ -94,6 +102,11 @@ const onFileSelectIndex = (event: any) => {
   selectedFileIndex = event.files[0]
 }
 
+let selectedFileIndexMobil: any = null
+const onFileSelectIndexMobil = (event: any) => {
+  selectedFileIndexMobil = event.files[0]
+}
+
 let selectedFileLogo: any = null
 const onFileSelectLogo = (event: any) => {
   selectedFileLogo = event.files[0]
@@ -104,6 +117,9 @@ const saveDatosTablaConfig = async () => {
   const formData = new FormData()
   if (selectedFileIndex) {
     formData.append('imagen_index', selectedFileIndex)
+  }
+  if (selectedFileIndexMobil) {
+    formData.append('imagen_index_mobil', selectedFileIndexMobil)
   }
   if (selectedFileLogo) {
     formData.append('imagen_logo', selectedFileLogo)
@@ -123,6 +139,7 @@ const saveDatosTablaConfig = async () => {
       })
     }
     selectedFileIndex = null
+    selectedFileIndexMobil = null
     selectedFileLogo = null
     hideDialog()
     loadDatosTablaConfig()
@@ -192,6 +209,10 @@ const saveDatosTablaConfig = async () => {
             <img :src="imgIndex" alt="Imagen 1" class="imagen" />
           </div>
           <div class="contenedor">
+            <span class="imagen-texto">Imagen Index Mobil</span>
+            <img :src="imgIndexMobile" alt="Imagen 1" class="imagen" />
+          </div>
+          <div class="contenedor">
             <span class="imagen-texto">Imagen Logo</span>
             <img :src="imgLogo" alt="Imagen 2" class="imagen" />
           </div>
@@ -253,6 +274,29 @@ const saveDatosTablaConfig = async () => {
             </FileUpload>
             <small class="p-error" v-if="submitted && !datosTablaConfig?.imagen_index"
               >Imagen index es requerido.</small
+            >
+          </div>
+
+          <div class="field">
+            <label for="imagen_indexMobil">Imagen Index Mobil</label>
+            <Toast />
+            <FileUpload
+              id="imagen_index_mobil"
+              v-model.trim="datosTablaConfig.imagen_index_mobil"
+              mode="advanced"
+              name="imagen_index_mobil"
+              chooseLabel="Cargar"
+              accept="image/*"
+              :multiple="false"
+              :invalid="submitted && !datosTablaConfig?.imagen_index_mobil"
+              @select="onFileSelectIndexMobil($event)"
+            >
+              <template #empty>
+                <span>Arrastre y suelte archivos aquí para cargarlos.</span>
+              </template>
+            </FileUpload>
+            <small class="p-error" v-if="submitted && !datosTablaConfig?.imagen_index_mobil"
+              >Imagen index mobil es requerido.</small
             >
           </div>
 

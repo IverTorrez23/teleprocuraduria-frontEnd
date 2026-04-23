@@ -7,6 +7,7 @@ export interface ITablaConfig {
   titulo_index: string
   texto_index: string
   imagen_index: string
+  imagen_index_mobil: string
   imagen_logo: string
   nombre: string
   archivo_url: string
