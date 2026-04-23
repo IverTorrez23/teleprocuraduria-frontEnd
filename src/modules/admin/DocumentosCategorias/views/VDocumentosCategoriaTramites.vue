@@ -280,17 +280,17 @@ const saveDocCategoria = async () => {
                 class="p-button-success mr-2"
                 @click="openNew"
               />
-              <Button
+              <!-- <Button
                 label="Delete"
                 icon="pi pi-trash"
                 class="p-button-danger"
                 @click="confirmDeleteSelected"
                 :disabled="!selectedDocCategorias || !selectedDocCategorias.length"
-              />
+              /> -->
             </div>
           </template>
 
-          <template #end>
+          <!-- <template #end>
             <FileUpload
               mode="basic"
               accept="image/*"
@@ -300,7 +300,7 @@ const saveDocCategoria = async () => {
               class="mr-2 inline-block"
             />
             <Button label="Export" icon="pi pi-upload" class="p-button-help" @click="exportCSV()" />
-          </template>
+          </template> -->
         </Toolbar>
 
         <DataTable
@@ -334,7 +334,7 @@ const saveDocCategoria = async () => {
             </div>
           </template>
 
-          <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
+          <!-- <Column selectionMode="multiple" headerStyle="width: 3rem"></Column> -->
           <Column field="id" header="ID" sortable>
             <template #body="slotProps">
               <span class="p-column-title">Id</span>
