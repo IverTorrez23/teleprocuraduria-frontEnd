@@ -14,6 +14,7 @@ const toast = useToast()
 const menuCollapsed = ref(false)
 const { isMobile } = useScreenSize()
 const selectedPdf = ref('')
+const isCollapsed = ref(false)
 
 const onDocumentSelect = (event: any) => {
   if (event.data.type === 'PDF') {
@@ -194,26 +195,44 @@ onMounted(() => {
 
 <template>
   <div class="grid">
-    <div class="col-12 lg:col-4">
-      <div class="card">
-        <h5>Lista de PDF</h5>
-        <TreeTable :value="treeNodesList" selection-mode="single" @node-select="onDocumentSelect">
-          <Column field="name" header="Tramites" expander>
-            <template #body="slotProps">
-              <!-- Personaliza el contenido de cada celda con un ícono -->
-              <span
-                :class="slotProps.node.data.type === 'PDF' ? 'pi pi-file-pdf' : 'pi pi-folder'"
-              ></span>
-              {{ slotProps.node.data.name }}
-            </template>
-          </Column>
-        </TreeTable>
+    <div
+      :class="[
+        'col-12 transition-all transition-duration-300',
+        isCollapsed ? 'lg:col-1' : 'lg:col-4'
+      ]"
+    >
+      <div class="card h-full">
+        <div class="flex justify-content-between align-items-center mb-2">
+          <h5 v-if="!isCollapsed">Lista de PDF</h5>
+          <Button
+            class="p-button-text p-button-sm"
+            @click="isCollapsed = !isCollapsed"
+            :icon="isCollapsed ? 'pi pi-angle-right' : 'pi pi-angle-left'"
+          />
+        </div>
+
+        <div v-show="!isCollapsed">
+          <TreeTable :value="treeNodesList" selection-mode="single" @node-select="onDocumentSelect">
+            <Column field="name" header="Tramites" expander>
+              <template #body="slotProps">
+                <span
+                  :class="slotProps.node.data.type === 'PDF' ? 'pi pi-file-pdf' : 'pi pi-folder'"
+                ></span>
+                {{ slotProps.node.data.name }}
+              </template>
+            </Column>
+          </TreeTable>
+        </div>
       </div>
     </div>
 
-    <div class="col-12 lg:col-8">
+    <div
+      :class="[
+        'col-12 transition-all transition-duration-300',
+        isCollapsed ? 'lg:col-11' : 'lg:col-8'
+      ]"
+    >
       <div class="card">
-        <!-- <OPDFViewer :pdfSrc="selectedPdf" /> -->
         <div v-if="selectedPdf" class="pdf-viewer-container">
           <iframe :src="selectedPdf" frameborder="0" class="pdf-viewer"></iframe>
         </div>

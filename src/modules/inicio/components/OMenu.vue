@@ -7,7 +7,11 @@ import LoginModal from '@/modules/auth/views/LoginModal.vue'
 import RegisterModal from '@/modules/auth/views/RegisterModal.vue'
 import { useAuthStore } from '@/modules/auth/stores/auth.store'
 import { storeToRefs } from 'pinia'
+import tablaConfigService from '@/modules/admin/TablaConfig/services/tablaConfig.service'
+import { baseUrlResource } from '@/config/constants'
+import { useToast } from 'primevue/usetoast'
 
+const toast = useToast()
 const { layoutConfig } = useLayout()
 const topbarMenuActive = ref(false)
 const { loginVisible, registerVisible, openLogin, openRegister } = useAuthModals()
@@ -15,17 +19,40 @@ const { loginVisible, registerVisible, openLogin, openRegister } = useAuthModals
 const authStore = useAuthStore()
 const { isAuthenticated } = storeToRefs(authStore)
 
+const logoUrl = computed(() => {
+  return `layout/images/${layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'}.svg`
+})
+
+const imgLogo = ref('')
+const datosTablaConfig = ref()
+const loadDatosTablaConfig = async () => {
+  const response = await tablaConfigService.mostrarDatos()
+  if (response) {
+    datosTablaConfig.value = response
+    if (datosTablaConfig.value.imagen_logo) {
+      imgLogo.value = `${baseUrlResource}/${datosTablaConfig.value.imagen_logo}`
+    } else {
+      imgLogo.value = logoUrl.value
+    }
+  } else {
+    toast.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Fallo al obtener datos',
+      life: 3000
+    })
+  }
+}
 onMounted(() => {
   bindOutsideClickListener()
+  loadDatosTablaConfig()
 })
 
 onBeforeUnmount(() => {
   unbindOutsideClickListener()
 })
 
-const logoUrl = computed(() => {
-  return `layout/images/${layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'}.svg`
-})
+
 
 const onTopBarMenuButton = () => {
   topbarMenuActive.value = !topbarMenuActive.value
@@ -66,8 +93,8 @@ const isOutsideClicked = (event: MouseEvent): boolean => {
 <template>
   <div class="layout-topbar-landing">
     <router-link to="/" class="layout-topbar-logo-landing">
-      <img :src="logoUrl" alt="logo" />
-      <span>TELEPROCURADURIA</span>
+      <img :src="imgLogo" alt="logo" style="width: 230px; height: 50px;"/>
+      <!-- <span>TELEPROCURADURIA</span> -->
     </router-link>
 
     <button
@@ -79,7 +106,7 @@ const isOutsideClicked = (event: MouseEvent): boolean => {
 
     <div class="layout-topbar-menu-landing" :class="topbarMenuClasses">
       <ul
-        class="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row cursor-pointer"
+        class="list-none m-0 flex lg:align-items-center select-none flex-column lg:flex-row cursor-pointer"
       >
         <li v-for="item in menuItems" :key="item.path">
           <router-link

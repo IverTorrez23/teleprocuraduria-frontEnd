@@ -510,7 +510,7 @@ const modelProcMaestro = ref([
   }
 ])
 
-const modelAdmin = ref([
+const modelAdminOld = ref([
   {
     label: 'Home',
     items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/admin' }]
@@ -725,6 +725,240 @@ const modelAdmin = ref([
     label: 'Configuración',
     items: [{ label: 'Perfil', icon: 'pi pi-fw pi-user-edit', to: '/configuracion/perfil' }]
   }
+])
+
+const modelAdmin = ref([
+  {
+    label: 'JURIDICO',
+    items: [
+      {
+        label: 'Causas',
+        icon: 'pi pi-fw pi-briefcase',
+        items: [
+          { label: 'Causas Activas', icon: 'pi pi-fw pi-bolt', to: '/causas' },
+          {
+            label: 'Causas Terminadas',
+            icon: 'pi pi-fw pi-check-square',
+            to: '/causas-terminadas'
+          },
+          {
+            label: `Vencidas Leves <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
+            icon: 'pi pi-fw pi-exclamation-triangle',
+            to: '/causas-orden-vencidas-leves'
+          },
+          {
+            label: `Vencidas Graves <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
+            icon: 'pi pi-fw pi-hourglass',
+            to: '/causas-orden-vencidas-graves'
+          },
+          // { label: 'Causas Inactivas', icon: 'pi pi-fw pi-stop-circle', to: '/mis-paquetes' },
+          
+          { label: 'Ejecutar Gestiones', icon: 'pi pi-fw pi-play-circle', to: '/lista-ejecutar' }
+        ]
+      },
+
+      
+      {
+        label: 'Actualizar',
+        icon: 'pi pi-fw pi-pen-to-square',
+        items: [
+          { label: 'Materias Legales', icon: 'pi pi-fw pi-receipt', to: '/materia' },
+          { label: 'Tipos Legales', icon: 'pi pi-fw pi-ticket', to: '/tipo-legal' },
+          { label: 'Tribunales', icon: 'pi pi-fw pi-building-columns', to: '/juzgados' },
+          { label: 'Pisos', icon: 'pi pi-fw pi-building', to: '/pisos' },
+          { label: 'Clase Tribunales', icon: 'pi pi-fw pi-tags', to: '/clase-tribunal' },
+          { label: 'Localidades', icon: 'pi pi-fw pi-map', to: '/distritos' },
+          { label: 'Categorias', icon: 'pi pi-fw pi-sitemap', to: '/categorias' }
+        ]
+      },
+      {
+        
+           label: 'Avance Físico', icon: 'pi pi-fw pi-chart-line', to: '/plantillas' ,
+        
+      },
+      {
+        
+            label: 'Textos Predictivos ',
+            icon: 'pi pi-fw pi-microchip-ai',
+            to: '#',
+            badge: ' Soon',
+            badgeClass: 'p-badge-info p-badge-sm'
+         
+      },
+    ]
+  },
+  {
+    label: 'WEB GENERAL',
+    items: [
+      //NORMAS
+          {
+            label: 'NORMAS',
+            icon: 'pi pi-fw pi-folder',
+            items: [
+              { label: 'Categoría Normas', icon: 'pi pi-fw pi-tag', to: '/categoria-normas' },
+              {
+                label: 'Biblioteca de Normas',
+                icon: 'pi pi-fw pi-file-import',
+                to: '/documentos-normas'
+              }
+            ]
+          },
+          //TRAMITES
+          {
+            label: 'TRÁMITES',
+            icon: 'pi pi-fw pi-folder',
+            items: [
+              { label: 'Categoría Trámites', icon: 'pi pi-fw pi-tag', to: '/categoria-tramites' },
+              {
+                label: 'Diccinario de Tramites',
+                icon: 'pi pi-fw pi-file-import',
+                to: '/documentos-tramites'
+              }
+            ]
+          },
+          {
+             label: 'Aranceles Profesionales', icon: 'pi pi-fw pi-euro', to: '/arancel-abogados' 
+            
+          },
+          {
+            label: 'Todas Las Videotecas',
+            icon: 'pi pi-fw pi-folder',
+            items: [
+              { label: 'Videoteca Pública', icon: 'pi pi-fw pi-video', to: '/vidioteca' },
+              {
+                label: 'Videoteca de los Procuradores',
+                icon: 'pi pi-fw pi-video',
+                to: '/videoteca-procurador'
+              },
+              {
+                label: 'Videoteca de los Abogados',
+                icon: 'pi pi-fw pi-video',
+                to: '/videoteca-abogado'
+              }
+            ]
+          },
+    ]
+  },
+  {
+    label: 'ADMINISTRACIÓN OPERATIVA',
+    items: [
+      {
+        label: 'Usuarios',
+        icon: 'pi pi-fw pi-users',
+        items: [
+          { label: 'Abogados Lideres', icon: 'pi pi-fw pi-chart-line', to: '/abogados-lideres' },
+          {
+            label: 'Abogados Independientes',
+            icon: 'pi pi-fw pi-chart-scatter',
+            to: '/abogados-independientes'
+          },
+          {
+            label: 'Procuradores',
+            icon: 'pi pi-fw pi-calculator',
+            to: '/procuradores'
+          },
+          {
+            label: 'Usuarios del sistema',
+            icon: 'pi pi-fw pi-calculator',
+            to: '/system-users'
+          }
+        ]
+      },
+      { label: 'Pago a Procuradores', icon: 'pi pi-fw pi-dollar', to: '/procurador-pago' },
+      {
+            label: 'Costo Judicial Venta',
+            icon: 'pi pi-fw pi-money-bill',
+            to: '/costo-judicial-venta'
+      },
+      {
+        label: 'Informes Operativos',
+        icon: 'pi pi-fw pi-address-book',
+        items: [
+          { label: 'Saldo Causas Activas', icon: 'pi pi-fw pi-chart-line', to: '/saldos-activos' },
+          // { label: 'Saldo Causas Inactivas', icon: 'pi pi-fw pi-chart-bar', to: '/tipo-legal' },
+          {
+            label: 'Saldo Causas Terminadas',
+            icon: 'pi pi-fw pi-chart-scatter',
+            to: '/saldos-terminados'
+          },
+          {
+            label: 'Saldo Por Causa ',
+            icon: 'pi pi-fw pi-calculator',
+            to: '#',
+            badge: ' Soon',
+            badgeClass: 'p-badge-info p-badge-sm'
+          }
+        ]
+      },
+      {
+            label: 'Operaciones Internas (A,B,C,D y E)',
+            icon: 'pi pi-fw pi-directions',
+            to: '/transacciones-admin'
+      },
+      {
+            label: 'Operaciones de Capacitación',
+            icon: 'pi pi-fw pi-graduation-cap',
+            to: '#',
+            badge: ' Soon',
+            badgeClass: 'p-badge-info p-badge-sm'
+      }, 
+      {
+            label: 'Exportar Base de Datos',
+            icon: 'pi pi-fw pi-database',
+            to: '#',
+            badge: ' Soon',
+            badgeClass: 'p-badge-info p-badge-sm'
+          },
+          {
+            label: 'Exportar Personalizado',
+            icon: 'pi pi-fw pi-cloud-download',
+            to: '#',
+            badge: ' Soon',
+            badgeClass: 'p-badge-info p-badge-sm'
+          },
+    ]
+  },
+  {
+    label: 'ADMINISTRACIÓN GENERAL',
+    items: [
+      { label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/admin' },
+      { label: 'Paquetes', icon: 'pi pi-fw pi-box', to: '/paquetes' },
+      {
+            label: 'Retiros',
+            icon: 'pi pi-fw pi-dollar',
+            to: '/retiros'
+          },
+          {
+            label: 'Devolucion Saldos',
+            icon: 'pi pi-fw pi-dollar',
+            to: '/devolucion-saldos'
+          },
+          {
+            label: 'Deposito a Billetera',
+            icon: 'pi pi-fw pi-dollar',
+            to: '/deposito-billetera'
+          },
+          
+          {
+            label: 'Terminos y Condiciones',
+            icon: 'pi pi-fw pi-file-check',
+            to: '/terminos-condiciones'
+          }
+    ]
+  },
+  {
+    label: 'CONFIGURACIÓN',
+    items: [
+      { label: 'Notificaciones', icon: 'pi pi-fw pi-bell', to: '/notificaciones' },
+      { label: 'Matriz Cotizaciones', icon: 'pi pi-fw pi-table', to: '/matriz' },
+      { label: 'Imagenes Index', icon: 'pi pi-fw pi-image', to: '/config-index' },  
+      { label: 'Perfil', icon: 'pi pi-fw pi-user-edit', to: '/configuracion/perfil' }
+    ]
+  },
+  /*{
+    label: 'Configuración',
+    items: [{ label: 'Perfil', icon: 'pi pi-fw pi-user-edit', to: '/configuracion/perfil' }]
+  }*/
 ])
 
 const model = ref([

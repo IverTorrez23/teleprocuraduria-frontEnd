@@ -136,8 +136,8 @@ const getInitials = (nombre = '', apellido = '') => {
   />
   <div class="layout-topbar">
     <router-link to="/" class="layout-topbar-logo">
-      <img :src="imgLogo" alt="logo" />
-      <span>{{ tituloApp }}</span>
+      <img :src="imgLogo" alt="logo" style="width: 230px; height: 50px;"/>
+       <!-- <span>{{ tituloApp }}</span> -->
     </router-link>
 
     <button class="p-link layout-menu-button layout-topbar-button" @click="onMenuToggle()">
@@ -169,12 +169,12 @@ const getInitials = (nombre = '', apellido = '') => {
       </div>
       <!-- <span class="user-name">{{ usuario?.persona?.nombre }}</span>
       <i class="pi pi-angle-down"></i> -->
-      <div class="flex flex-column align-items-start ml-2">
+      <div class="hidden md:flex md:flex-column align-items-start ml-2">
         <span class="user-name">{{ usuario?.persona?.nombre }}</span>
         <small class="user-role text-500">{{ usuario?.tipo }}</small>
       </div>
 
-      <i class="pi pi-angle-down ml-2"></i>
+      <i class="pi pi-angle-down"></i>
 
       <!-- Menú desplegable -->
       <div class="layout-topbar-menu" :class="topbarMenuClasses">
@@ -301,5 +301,10 @@ const getInitials = (nombre = '', apellido = '') => {
   font-size: 0.7rem;
   color: var(--text-color-secondary);
   margin-top: 0.1rem;
+}
+@media (max-width: 768px) {
+  .user-info-mobile-hide {
+    display: none;
+  }
 }
 </style>
