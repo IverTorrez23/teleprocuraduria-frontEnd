@@ -14,6 +14,7 @@ import { baseUrlResource } from '@/config/constants'
 
 const toast = useToast()
 const dt = ref()
+const isLoading = ref(false)
 const documentos = ref<IDocumento[]>([])
 const documentoDialog = ref(false)
 const deleteDocumentoDialog = ref(false)
@@ -226,16 +227,30 @@ const deleteSelectedDocumentos = () => {
 }
 
 const onFileSelect = (event: any) => {
+  const file = event.files[0]
+  const maxSize = 20 * 1024 * 1024
+  if (file && file.size > maxSize) {
+    // Aquí puedes usar el servicio de Toast de PrimeVue para avisar
+    toast.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'El archivo excede los 20MB',
+      life: 3000
+    })
+    return
+  }
   selectedFile = event.files[0]
 }
 
 const saveDocumento = async () => {
-  submitted.value = true
+   submitted.value = true
   if (!documento.value?.nombre || !documento.value?.categoria_id) return
   const formData = new FormData()
   if (selectedFile) {
     formData.append('archivo_url', selectedFile)
   }
+
+  isLoading.value = true
   formData.append('nombre', documento.value.nombre.toString())
   formData.append('tipo', TipoDocumento.NORMAS)
   formData.append('categoria_id', documento.value.categoria_id.toString())
@@ -263,13 +278,19 @@ const saveDocumento = async () => {
     selectedFile = null
     hideDialog()
     loadDocumentos()
-  } catch (error) {
+  } catch (error: any) {
+    const mensaje =
+    [error?.message, error?.error]
+      .filter(Boolean)
+      .join(' - ') || 'Error desconocido'
     toast.add({
       severity: 'error',
       summary: 'Error',
-      detail: 'Failed to save Documento',
-      life: 3000
+      detail: mensaje,
+      life: 8000
     })
+  } finally {
+    isLoading.value = false
   }
 }
 const openDialogPdf = async (url: string) => {
@@ -450,6 +471,8 @@ const openDialogPdf = async (url: string) => {
               chooseLabel="Cargar"
               accept="application/pdf"
               :multiple="false"
+              :maxFileSize="20971520"
+              invalidFileSizeMessage="El archivo es demasiado grande. El máximo permitido es 20MB."
               :invalid="submitted && !documento?.archivo_url"
               @select="onFileSelect($event)"
             >
@@ -464,7 +487,13 @@ const openDialogPdf = async (url: string) => {
 
           <template #footer>
             <Button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog" />
-            <Button label="Save" icon="pi pi-check" class="p-button-text" @click="saveDocumento" />
+            <Button
+              label="Save"
+              :icon="isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-check'"
+              class="p-button-text"
+              :disabled="isLoading"
+              @click="saveDocumento"
+            />
           </template>
         </Dialog>
 

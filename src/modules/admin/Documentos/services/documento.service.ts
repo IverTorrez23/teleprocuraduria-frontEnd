@@ -95,7 +95,7 @@ const listarDocumentos = async (id?: number) => {
   return response?.data.data
 }
 
-const createDocumento = async (formData: FormData) => {
+const createDocumento2 = async (formData: FormData) => {
   const formDataObj: any = {}
   formData.forEach((value, key) => {
     formDataObj[key] = value
@@ -108,6 +108,27 @@ const createDocumento = async (formData: FormData) => {
     .catch(() => undefined)
 
   return response?.data?.response
+}
+
+const createDocumento = async (formData: FormData) => {
+  try {
+    const response = await axios.post<{ data: IDocumento }>(
+      ENDPOINT.DOCUMENTOS,
+      formData,
+      {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      }
+    )
+
+    return response.data
+  } catch (error: any) {
+    // 🔥 IMPORTANTE: lanzar el error real
+    console.log('errorrr', error.response.data)
+    if (error.response) {
+      throw error.response.data
+    }
+    throw error
+  }
 }
 
 const updateDocumento = async (formData: FormData) => {
