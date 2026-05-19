@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, ref, watch, reactive } from 'vue'
+import { defineProps, defineEmits, computed, ref, watch, reactive, onMounted } from 'vue'
 import { useToast } from 'primevue/usetoast'
 import { useLayout } from '@/layout/composables/layout'
 import { AutorizacionService } from '../services/autenticacion.service'
@@ -10,6 +10,9 @@ import AppLogo from '@/common/components/shared/AppLogo.vue'
 import pdfUrlAbogLider from '@/assets/pdf/ACUERDO_ABOGADO_LIDER.pdf?url';
 import pdfUrlAbogIndep from '@/assets/pdf/ACUERDO_ABOGADO_INDEPENDIENTE.pdf?url';
 import pdfUrlProcurador from '@/assets/pdf/ACUERDO_PROCURADORES.pdf?url';
+import { baseUrlResource } from '@/config/constants'
+import tablaConfigService from '@/modules/admin/TablaConfig/services/tablaConfig.service'
+import type { ITablaConfig } from '@/modules/admin/TablaConfig/types/tablaConfig.types'
 
 const toast = useToast()
 const { layoutConfig } = useLayout()
@@ -20,6 +23,7 @@ const steps = reactive({
 })
 
 const validationErrors = ref<Record<string, string[]>>({})
+const tablaConfigSelected = ref<ITablaConfig>()
 
 const form = ref<IRegistroForm>({
   nombre: '',
@@ -147,26 +151,46 @@ const showTerms = () => {
   internalVisible.value = false
   steps.terms = true
 }
+
+const loadDatosTablaConfig = async () => {
+  const response = await tablaConfigService.mostrarDatos()
+  if (response) {
+    tablaConfigSelected.value = response
+    //pdfUrl.value = `${baseUrlResource}/${tablaConfigSelected.value.url_acuerdo_lider}`
+  } else {
+    toast.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Fallo al obtener datos',
+      life: 3000
+    })
+  }
+}
+
+onMounted(() => {
+  loadDatosTablaConfig()
+})
 const handleOptionChange = (tipo: string) => {
   console.log('Opción seleccionada:', tipo)
   // Llama a otra función o realiza lógica adicional aquí
+  if (!tablaConfigSelected.value) return
   switch (tipo) {
     case 'ABOGADO_LIDER':
       notaTipoUsuario.value =
         'Como Abogado Líder de otros profesionales,   podrá gestionar causas y podrá registrar abogados a su cargo.'
       notaTipoUsuarioNegrita.value = 'SOLO PARA CORPORACIONES, INSTITUCINES Y EMPRESAS:'
-      pdfTerminos.value = pdfUrlAbogLider
+      pdfTerminos.value = `${baseUrlResource}/${tablaConfigSelected.value.url_acuerdo_lider}`//pdfUrlAbogLider
       break
     case 'ABOGADO_INDEPENDIENTE':
       notaTipoUsuario.value = 'Como Abogado Independiente, podrá gestionar causas.'
       notaTipoUsuarioNegrita.value = ''
-      pdfTerminos.value = pdfUrlAbogIndep
+      pdfTerminos.value = `${baseUrlResource}/${tablaConfigSelected.value?.url_acuerdo_indep}`//pdfUrlAbogIndep
       break
     case 'PROCURADOR':
       notaTipoUsuario.value =
         'Como Procurador, podrá capacitarse y realizar los servicios de procuraduría a las causas de los abogados. '
       notaTipoUsuarioNegrita.value = ''
-      pdfTerminos.value = pdfUrlProcurador
+      pdfTerminos.value = `${baseUrlResource}/${tablaConfigSelected.value?.url_acuerdo_proc}`//pdfUrlProcurador
       break
     default:
       notaTipoUsuario.value = 'Debe seleccionar un tipo de usuario.'

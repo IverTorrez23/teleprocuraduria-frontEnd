@@ -177,12 +177,12 @@ const saveDatosTablaConfig = async () => {
           :size="TableSize.small"
           tableStyle="min-width: 50rem"
         >
-          <Column field="titulo_index" header="Titulo Index">
+          <!-- <Column field="titulo_index" header="Titulo Index">
             <template #body="">
               <span class="p-column-title">Titulo Index</span>
               <span>{{ tablaConfigSelected?.titulo_index }}</span>
             </template></Column
-          >
+          > -->
         </DataTable>
 
         <DataTable
@@ -195,14 +195,14 @@ const saveDatosTablaConfig = async () => {
           :size="TableSize.small"
           tableStyle="min-width: 50rem"
         >
-          <Column field="texto_index" header="Texto Index">
+          <!-- <Column field="texto_index" header="Texto Index">
             <template #body="">
               <span class="p-column-title">Texto Index</span>
               <span>{{ tablaConfigSelected?.texto_index }}</span>
             </template></Column
-          >
+          > -->
         </DataTable>
-        <br />
+       
         <div class="contenedores-imagenes">
           <div class="contenedor">
             <span class="imagen-texto">Imagen Index</span>
@@ -226,7 +226,7 @@ const saveDatosTablaConfig = async () => {
           :modal="true"
           class="p-fluid"
         >
-          <div class="field">
+          <div class="field" style="display: none;">
             <label for="titulo">Titulo Index</label>
             <InputText
               id="titulo_index"
@@ -240,7 +240,7 @@ const saveDatosTablaConfig = async () => {
             >
           </div>
 
-          <div class="field">
+          <div class="field" style="display: none;">
             <label for="texto">Texto Index</label>
             <InputText
               id="texto_index"

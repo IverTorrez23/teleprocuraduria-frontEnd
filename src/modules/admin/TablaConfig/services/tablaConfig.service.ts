@@ -39,6 +39,7 @@ const updateTablaConfig = async (formData: FormData) => {
     )
     return response?.data.response
   } catch (error) {
+    console.log('llegoooooohh')
     if (isAxiosError(error)) {
       const axiosError = error as AxiosError<{ message: string; errors: Record<string, string[]> }>
       if (axiosError.response) {
