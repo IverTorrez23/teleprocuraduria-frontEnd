@@ -255,7 +255,7 @@ const saveDatosTablaConfig = async () => {
           </div>
 
           <div class="field">
-            <label for="imagen_index">Imagen Index (dimensiones 1265x540)</label>
+            <label for="imagen_index">Imagen Index (dimensiones 1265px X 540px)</label>
             <Toast />
             <FileUpload
               id="imagen_index"
@@ -278,7 +278,7 @@ const saveDatosTablaConfig = async () => {
           </div>
 
           <div class="field">
-            <label for="imagen_indexMobil">Imagen Index Mobil (dimensiones 375x650)</label>
+            <label for="imagen_indexMobil">Imagen Index Mobil (dimensiones 375px X 650px)</label>
             <Toast />
             <FileUpload
               id="imagen_index_mobil"
@@ -301,7 +301,7 @@ const saveDatosTablaConfig = async () => {
           </div>
 
           <div class="field">
-            <label for="imagen_logo">Imagen Logo (dimensiones 230x50)</label>
+            <label for="imagen_logo">Imagen Logo (dimensiones 230px X 50px)</label>
             <Toast />
             <FileUpload
               id="imagen_logo"

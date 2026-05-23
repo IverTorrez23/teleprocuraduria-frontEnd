@@ -223,14 +223,7 @@ const saveVideo = async () => {
               {{ slotProps.data.descripcion }}
             </template></Column
           >
-          <Column field="tipo" header="Tipo" sortable>
-            <template #body="slotProps">
-              <span class="p-column-title">Tipo</span>
-              {{ slotProps.data.tipo }}
-            </template></Column
-          >
-
-
+          
           <Column field="link" header="Video">
             <template #body="slotProps">
               <div
