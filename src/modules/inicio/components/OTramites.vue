@@ -217,6 +217,9 @@ onMounted(() => {
               <template #body="slotProps">
                 <span
                   :class="slotProps.node.data.type === 'PDF' ? 'pi pi-file-pdf' : 'pi pi-folder'"
+                  :style="{
+                    color: slotProps.node.data.type === 'PDF' ? '#e53935' : '#22c55e'
+                  }"
                 ></span>
                 {{ slotProps.node.data.name }}
               </template>

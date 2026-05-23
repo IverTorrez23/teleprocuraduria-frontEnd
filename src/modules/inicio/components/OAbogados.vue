@@ -40,22 +40,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="grid">
-     <Toast />
-    <!-- <div class="col-12 lg:col-4">
-      <div class="card">
-        <h5>Lista de PDF</h5>
-        <OPDFList :pdfs="pdfs" @selectPdf="handleSelectPdf" />
-      </div>
-    </div> -->
-
-    <div class="col-12">
-      <div class="card">
-        <!-- <OPDFViewer :pdfSrc="pdfUrl" /> -->
-        <iframe v-if="pdfUrl" :src="pdfUrl" width="100%" height="500px"></iframe>
-      </div>
-    </div>
+  <div class="w-full p-0 m-0">
+    <Toast />
+    <iframe v-if="pdfUrl" :src="pdfUrl" class="pdf-frame"></iframe>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.pdf-frame {
+  width: 100%;
+  height: calc(100vh - 140px);
+  border: none;
+  border-radius: 8px;
+}
+body, .layout-content {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+</style>
