@@ -355,12 +355,7 @@ const openDialogPdf = async (url: string) => {
           </template>
 
           <!-- <Column selectionMode="multiple" headerStyle="width: 3rem"></Column> -->
-          <Column field="id" header="ID" sortable>
-            <template #body="slotProps">
-              <span class="p-column-title">Id</span>
-              {{ slotProps.data.id }}
-            </template></Column
-          >
+          
           <Column field="nombre" header="Nombre" sortable>
             <template #body="slotProps">
               <span class="p-column-title">Nombre</span>

@@ -88,8 +88,7 @@ function scrollToPaquetes() {
   <div class="landing-wrapper w-full overflow-hidden">
     <div id="inicio" class="inicio-container">
       <div class="">
-        <!-- imagen horizontal -->
-        <!-- <img :src="imgIndex" alt="img" class="md:ml-auto block md:h-full w-full" /> -->
+       
         <picture>
           <!-- Imagen para móvil -->
           <source media="(max-width: 768px)" :srcset="imgIndexMobile" />
@@ -99,8 +98,13 @@ function scrollToPaquetes() {
         </picture>
       </div>
     </div>
-    <div id="paquetes" class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-      <div class="text-900 font-bold text-6xl mb-4 text-center">VENTA DE PAQUETES</div>
+    <div id="paquetes" class="surface-ground px-4 pt-2 pb-6 md:px-6 lg:px-8">
+  <div class="text-center mb-1">
+  
+  <h2 class="text-900 text-3xl font-semibold m-0">
+    Venta de paquetes
+  </h2>
+</div>
       <div class="grid">
         <OServicios
           v-for="(pkg, index) in paquetes"
@@ -184,7 +188,19 @@ function scrollToPaquetes() {
 
 @media (max-width: 768px) {
   .inicio-container {
-    height: 70vh; /* no tan alto en móvil */
+    height: 50vh; /* no tan alto en móvil */
+  }
+}
+
+@media (max-width: 768px) {
+  #paquetes {
+    padding-top: 0.5rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #paquetes .text-center {
+    margin-bottom: 0.5rem !important;
   }
 }
 </style>
