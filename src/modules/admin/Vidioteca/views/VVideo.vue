@@ -8,6 +8,7 @@ import type { IOpcionesPaginado, IPaginado, ISearch, ISort } from '@/common/comm
 import { getEstado } from '@/common/utils/statusUtils'
 import type { DataTableSortEvent } from 'primevue/datatable'
 import { TableSize } from '@/constants/constants'
+import OVisorTextCompleto from '@/components/OVisorTextCompleto.vue'
 
 const toast = useToast()
 const dt = ref()
@@ -155,6 +156,50 @@ const saveVideo = async () => {
     toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to save Video', life: 3000 })
   }
 }
+
+//Para visualizacion de textos completos
+const modalTexCompletoVisible = ref(false)
+const fullText = ref('')
+const headerTextoCompleto = ref('')
+
+const truncateHTML = (html: string, length: number) => {
+  const text = html.replace(/<[^>]+>/g, '') // Remueve las etiquetas HTML para obtener texto plano
+  text.slice(0, length) // Trunca el texto plano dejando solamente la cantidad de caracteres segun length
+  const isTruncated = text.length > length
+  let finalHTML = ''
+  let charCount = 0
+
+  const regex = /(<[^>]+>|[^<]+)/g // Match tags or text
+  let match
+  while ((match = regex.exec(html)) !== null && charCount < length) {
+    const part = match[0]
+
+    if (part.startsWith('<')) {
+      // Si es una etiqueta HTML, la agregamos sin modificar
+      finalHTML += part
+    } else {
+      // Si es texto, lo truncamos si excede el límite
+      const remainingChars = length - charCount
+      finalHTML += part.slice(0, remainingChars)
+      charCount += part.length
+    }
+  }
+  if (isTruncated) {
+    finalHTML += '...'
+  }
+  return finalHTML
+}
+
+const textMayorLimiteVisual = (html: string, limite: number) => {
+  const text = html //.replace(/<[^>]+>/g, '')
+  if (text.length > limite) return true
+  else return false
+}
+const viewTextCompleto = (text: string, headerModal: string) => {
+  fullText.value = text
+  modalTexCompletoVisible.value = true
+  headerTextoCompleto.value = headerModal
+}
 </script>
 <template>
   <div class="grid">
@@ -205,25 +250,24 @@ const saveVideo = async () => {
             </div>
           </template>
 
-          <Column field="id" header="ID" sortable>
-            <template #body="slotProps">
-              <span class="p-column-title">Id</span>
-              {{ slotProps.data.id }}
-            </template></Column
-          >
-          <Column field="titulo" header="Título" sortable>
+          
+          <Column field="titulo" header="Título" sortable style="width: 20%;">
             <template #body="slotProps">
               <span class="p-column-title">Título</span>
               {{ slotProps.data.titulo }}
             </template></Column
           >
-          <Column field="descripcion" header="Descripción" sortable>
+          <Column field="descripcion" header="Descripción" sortable style="width: 30%;">
             <template #body="slotProps">
-              <span class="p-column-title">Descripción</span>
-              {{ slotProps.data.descripcion }}
-            </template></Column
-          >
-          
+              <span v-html="truncateHTML(slotProps.data.descripcion, 70)"></span>
+              <Button
+                v-if="textMayorLimiteVisual(slotProps.data.descripcion, 70)"
+                label="Ver más"
+                link
+                @click="viewTextCompleto(slotProps.data.descripcion, 'Descripción')"
+              /> </template
+          ></Column>
+
           <Column field="link" header="Video">
             <template #body="slotProps">
               <div
@@ -234,7 +278,14 @@ const saveVideo = async () => {
                   <iframe
                     :src="slotProps.data.link"
                     frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allow="
+                      accelerometer;
+                      autoplay;
+                      clipboard-write;
+                      encrypted-media;
+                      gyroscope;
+                      picture-in-picture;
+                    "
                     allowfullscreen
                     width="100%"
                     height="100%"
@@ -243,13 +294,7 @@ const saveVideo = async () => {
               </div> </template
           ></Column>
 
-          <Column field="estado" header="Estado">
-            <template #body="slotProps">
-              <Tag
-                :value="slotProps.data.estado"
-                :severity="getEstado(slotProps.data.estado)"
-              /> </template
-          ></Column>
+          
 
           <Column header="Acciones">
             <template #body="slotProps">
@@ -348,5 +393,12 @@ const saveVideo = async () => {
       </div>
     </div>
   </div>
+
+  <OVisorTextCompleto
+    :fullText="fullText"
+    :visible="modalTexCompletoVisible"
+    @update:visible="modalTexCompletoVisible = $event"
+    :header="headerTextoCompleto"
+  />
 </template>
 <style scoped lang="scss"></style>
