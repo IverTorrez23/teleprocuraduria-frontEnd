@@ -94,7 +94,7 @@ function scrollToPaquetes() {
           <source media="(max-width: 768px)" :srcset="imgIndexMobile" />
 
           <!-- Imagen para desktop -->
-          <img :src="imgIndex" alt="img" class="md:ml-auto block md:h-full w-full" />
+          <img :src="imgIndex" alt="img" class="banner-image" />
         </picture>
       </div>
     </div>
@@ -116,6 +116,7 @@ function scrollToPaquetes() {
           :duration="pkg.cantidad_dias"
           :tienefechalimite="pkg.tiene_fecha_limite"
           :fechalimite="pkg.fecha_limite_compra"
+          :tipo="pkg.tipo"
         />
       </div>
     </div>
@@ -186,9 +187,22 @@ function scrollToPaquetes() {
   animation-iteration-count: infinite;
 }
 
+.inicio-container {
+  width: 100%;
+  aspect-ratio: 1265 / 270;
+}
+
+.inicio-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 @media (max-width: 768px) {
   .inicio-container {
-    height: 50vh; /* no tan alto en móvil */
+    /*height: 50vh; /* no tan alto en móvil */
+    aspect-ratio: 375 / 400;
   }
 }
 

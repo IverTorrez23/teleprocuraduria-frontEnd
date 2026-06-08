@@ -111,7 +111,7 @@ const isOutsideClicked = (event: MouseEvent): boolean => {
         <li v-for="item in menuItems" :key="item.path">
           <router-link
             :to="item.path"
-            class="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 p-ripple"
+            class="menu-link flex m-0 md:ml-5 px-1 py-2 text-900 font-medium line-height-3 p-ripple"
             v-ripple
           >
             <span class="text-center">{{ item.label }}</span>
@@ -177,4 +177,22 @@ const isOutsideClicked = (event: MouseEvent): boolean => {
     />
   </div>
 </template>
-<style lang="scss" scoped></style>
+<style  scoped>
+.menu-link {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.menu-link:hover {
+  background-color: #10b981;
+  color: #ffffff !important;
+   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+/* Hace que el texto interno también cambie a blanco */
+.menu-link:hover span {
+  color: #ffffff !important;
+}
+</style>
