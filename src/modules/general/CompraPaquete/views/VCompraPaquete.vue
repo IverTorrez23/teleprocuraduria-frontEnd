@@ -19,6 +19,7 @@ const authStore = useAuthStore()
 const { isAuthenticated, routePreviewLogin } = storeToRefs(authStore)
 const { openLogin } = useAuthModals()
 
+const tipoPaquete = ref('')
 const labelButton = ref('')
 const disabledButtonCompra = ref(true)
 const disabledButtonConfirmCompra = ref(false)
@@ -54,6 +55,11 @@ const loadUnPaquete = async () => {
     )
     fechaFinal.value = newDate.toLocaleDateString()
     disabledButtonCompra.value = false
+    if (paqueteSelected.value.tipo === 'ABOGADO_INDEPENDIENTE') {
+      tipoPaquete.value = 'Paquete Personal'
+    } else {
+      tipoPaquete.value = 'Paquete Corporativo'
+    }
   } else {
     toast.add({
       severity: 'error',
@@ -111,8 +117,15 @@ const saveCompraPaquete = async () => {
 
 <template>
   <div class="surface-section px-4 py-4 md:px-4 lg:px-8 text-left">
-    <div class="mb-2 font-bold text-2xl">
-      <span class="text-900">Paquete: {{ paqueteSelected?.nombre }} </span>
+    <div class="mb-3">
+      <div class="text-green-500 font-semibold text-sm uppercase mb-1">
+        <i class="pi pi-tag mr-1"></i>
+        {{ tipoPaquete }}
+      </div>
+
+      <div class="text-900 font-bold text-2xl">
+        {{ paqueteSelected?.nombre }}
+      </div>
     </div>
     <div class="text-700 text-sm mb-3">
       {{ paqueteSelected?.descripcion }}
