@@ -135,6 +135,7 @@ export interface IDetalleFinanciero {
   id: number
   entrega_informacion: string
   detalle_informacion: string
+  fecha_inicio: string
   fecha_fin: string
   prioridad: number
   condicion: number

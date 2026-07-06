@@ -44,12 +44,12 @@ const modelProcurador = ref([
             }*/
           },
           {
-            label: `Vencidas Leves <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
+            label: `Pendientes a cerrar <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
             icon: 'pi pi-fw pi-exclamation-triangle',
             to: '/causas-orden-vencidas-leves'
           },
           {
-            label: `Vencidas Graves <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
+            label: `Vencidas <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
             icon: 'pi pi-fw pi-hourglass',
             to: '/causas-orden-vencidas-graves'
           },
@@ -111,12 +111,12 @@ const modelAbogIndependiente = ref([
         items: [
           { label: 'Causas Activas', icon: 'pi pi-fw pi-bolt', to: '/causas' },
           {
-            label: `Vencidas Leves <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
+            label: `Pendientes a cerrar <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
             icon: 'pi pi-fw pi-exclamation-triangle',
             to: '/causas-orden-vencidas-leves'
           },
           {
-            label: `Vencidas Graves <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
+            label: `Vencidas <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
             icon: 'pi pi-fw pi-hourglass',
             to: '/causas-orden-vencidas-graves'
           },
@@ -187,12 +187,12 @@ const modelAbogLider = ref([
         items: [
           { label: 'Causas Activas', icon: 'pi pi-fw pi-bolt', to: '/causas' },
           {
-            label: `Vencidas Leves <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
+            label: `Pendientes a cerrar <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
             icon: 'pi pi-fw pi-exclamation-triangle',
             to: '/causas-orden-vencidas-leves'
           },
           {
-            label: `Vencidas Graves <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
+            label: `Vencidas <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
             icon: 'pi pi-fw pi-hourglass',
             to: '/causas-orden-vencidas-graves'
           },
@@ -269,12 +269,12 @@ const modelAbogDependiente = ref([
         items: [
           { label: 'Causas Activas', icon: 'pi pi-fw pi-bolt', to: '/causas' },
           {
-            label: `Vencidas Leves <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
+            label: `Pendientes a cerrar <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
             icon: 'pi pi-fw pi-exclamation-triangle',
             to: '/causas-orden-vencidas-leves'
           },
           {
-            label: `Vencidas Graves <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
+            label: `Vencidas <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
             icon: 'pi pi-fw pi-hourglass',
             to: '/causas-orden-vencidas-graves'
           },
@@ -340,12 +340,12 @@ const modelTesorero = ref([
         items: [
           { label: 'Causas Activas', icon: 'pi pi-fw pi-bolt', to: '/causas' },
           {
-            label: `Vencidas Leves <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
+            label: `Pendientes a cerrar <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
             icon: 'pi pi-fw pi-exclamation-triangle',
             to: '/causas-orden-vencidas-leves'
           },
           {
-            label: `Vencidas Graves <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
+            label: `Vencidas <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
             icon: 'pi pi-fw pi-hourglass',
             to: '/causas-orden-vencidas-graves'
           },
@@ -440,12 +440,12 @@ const modelProcMaestro = ref([
             to: '/lista-urgencias'
           },
           {
-            label: `Vencidas Leves <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
+            label: `Pendientes a cerrar <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
             icon: 'pi pi-fw pi-exclamation-triangle',
             to: '/causas-orden-vencidas-leves'
           },
           {
-            label: `Vencidas Graves <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
+            label: `Vencidas <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
             icon: 'pi pi-fw pi-hourglass',
             to: '/causas-orden-vencidas-graves'
           },
@@ -742,12 +742,12 @@ const modelAdmin = ref([
             to: '/causas-terminadas'
           },
           {
-            label: `Vencidas Leves <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
+            label: `Pendientes a cerrar <span style="background-color: #10b981; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasLeves}</span>`,
             icon: 'pi pi-fw pi-exclamation-triangle',
             to: '/causas-orden-vencidas-leves'
           },
           {
-            label: `Vencidas Graves <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
+            label: `Vencidas <span style="background-color: #ee0a0a; color: #fff; padding: 0.2em 0.6em; border-radius: 50%; font-size: 0.75rem;display: inline-block; text-align: center; margin-left: 0.5em; min-width: 1.5em;">${countVencidasGraves}</span>`,
             icon: 'pi pi-fw pi-hourglass',
             to: '/causas-orden-vencidas-graves'
           },
@@ -884,8 +884,8 @@ const modelAdmin = ref([
           {
             label: 'Saldo Por Causa ',
             icon: 'pi pi-fw pi-calculator',
-            to: '#',
-            badge: ' Soon',
+            to: '/saldos-por-causa',
+            
             badgeClass: 'p-badge-info p-badge-sm'
           }
         ]
