@@ -146,10 +146,8 @@ const saveCompraPaquete = async () => {
       <h5>Detalles de compra:</h5>
       <div class="mb-3">
         <span
-          >Este paquete tiene un costo de {{ paqueteSelected?.precio }} Bs, y podra crear y/o
-          administrar sus causas, por el perido de {{ paqueteSelected?.cantidad_dias }} días,
-          iniciando el perido hoy y finalizando en fecha {{ fechaFinal }} (si compra el paquete
-          hoy)</span
+          >Este paquete tiene un costo de {{ paqueteSelected?.precio }} Bs, y podrá crear y/o
+          administrar sus causas, por el perido de {{ paqueteSelected?.cantidad_dias }} días adicionales.</span
         >
       </div>
     </div>

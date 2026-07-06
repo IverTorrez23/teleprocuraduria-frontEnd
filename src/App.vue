@@ -4,6 +4,8 @@ import FullScreenLoader from './common/components/Loader/FullScreenLoader.vue'
 import { useAuthStore } from './modules/auth/stores/auth.store'
 import { AuthStatus } from './modules/auth/types'
 import LoginModal from './modules/auth/views/LoginModal.vue'
+import { onMounted } from 'vue';
+import { useConfigStore } from '@/stores/configStore';
 
 const authStore = useAuthStore()
 
@@ -17,6 +19,11 @@ const authStore = useAuthStore()
 // )
 
 const { authStatus, sessionModalOpen, sesionExpirada } = storeToRefs(authStore)
+const configStore = useConfigStore();
+
+onMounted(() => {
+  configStore.fetchLogo();
+});
 </script>
 
 <template>

@@ -46,3 +46,8 @@ export interface ITribunalDominanteResponse {
   procurador_id: number | null
   tribunal_dominante: string | null
 }
+export interface ICausaCodigo {
+  id: number
+  nombre: string
+  codigo_causa: string
+}

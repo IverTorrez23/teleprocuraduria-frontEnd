@@ -661,6 +661,12 @@ const router = createRouter({
           props: true
         },
         {
+          path: '/saldos-por-causa',
+          name: 'SaldosPorCausa',
+          component: () => import('@/modules/general/Causas/views/VSaldoPorCausa.vue'),
+          props: true
+        },
+        {
           path: '/terminos-condiciones',
           name: 'TerminosCondiciones',
           component: () => import('@/modules/admin/TablaConfig/views/VAcuerdosUsuarios.vue')

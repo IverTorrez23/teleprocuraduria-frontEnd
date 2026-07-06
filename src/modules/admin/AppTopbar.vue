@@ -42,6 +42,25 @@ const loadDatosTablaConfig = async () => {
     })
   }
 }
+const devolverTipoUser = (tipoUser) => {
+  console.log('usuario.tipo',usuario.tipo)
+  switch (tipoUser) {
+    case 'ABOGADO_INDEPENDIENTE':
+      return 'ABOGADO INDEPENDIENTE'
+
+    case 'ABOGADO_LIDER':
+      return 'ABOGADO LÍDER'
+
+    case 'ABOGADO_DEPENDIENTE':
+      return 'ABOGADO DEPENDIENTE'
+
+    case 'PROCURADOR_MAESTRO':
+      return 'PROCURADOR MAESTRO'
+
+    default:
+      return tipoUser
+  }
+}
 
 onMounted(() => {
   bindOutsideClickListener()
@@ -171,7 +190,7 @@ const getInitials = (nombre = '', apellido = '') => {
       <i class="pi pi-angle-down"></i> -->
       <div class="hidden md:flex md:flex-column align-items-start ml-2">
         <span class="user-name">{{ usuario?.persona?.nombre }}</span>
-        <small class="user-role text-500">{{ usuario?.tipo }}</small>
+        <small class="user-role text-500">{{ devolverTipoUser(usuario?.tipo) }}</small>
       </div>
 
       <i class="pi pi-angle-down"></i>

@@ -7,6 +7,7 @@ import { CrearRespuestaPaginado } from '@/common/utils/respuestas-paginado'
 import type { ServiceResponse } from '@/common/utils/types/services.types'
 import type { ICausaBilletera } from '../../Billetera/types/causaBilletera.types'
 import type { ITribunalDominanteResponse } from '../types/causa.types'
+import type { ICausaCodigo } from '../types/causa.types'
 
 const ENDPOINT = Object.freeze({
   CAUSAS: '/causas',
@@ -135,6 +136,9 @@ const ENDPOINT = Object.freeze({
   },
   obtenerTribunalDominante(id: number) {
     return this.CAUSAS + `/datos-tribunal/${id}`
+  },
+  listarCausasConCodigo() {
+    return this.CAUSAS + `/listado-codigos/nuevo`
   },
 })
 
@@ -1379,6 +1383,37 @@ const obtenerTribunalDominante = async (
   }
 }
 
+const getlistarCausasConCodigo = async (): Promise<ServiceResponse<ICausaCodigo[]>> => {
+  try {
+    const response = await axios.get<{
+      message: string
+      data: ICausaCodigo[]
+    }>(ENDPOINT.listarCausasConCodigo())
+
+    return {
+      status: 'success',
+      message: response.data.message,
+      data: response.data.data
+    }
+  } catch (error: unknown) {
+    if (isAxiosError(error)) {
+      return {
+        status: 'error',
+        message:
+          error.response?.data?.message ||
+          error.response?.data?.error ||
+          'Error al obtener causas activas.',
+        errors: error.response?.data?.errors ?? null
+      }
+    }
+
+    return {
+      status: 'error',
+      message: 'Error inesperado al obtener causas activas.'
+    }
+  }
+}
+
 export default {
   getCausas,
   listarCausas,
@@ -1424,5 +1459,6 @@ export default {
   getCausasTodasCostosOperativos,
   listadoSaldosActivosCausas,
   listadoSaldosTerminadosCausas,
-  obtenerTribunalDominante
+  obtenerTribunalDominante,
+  getlistarCausasConCodigo
 }
