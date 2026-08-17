@@ -117,6 +117,7 @@ function scrollToPaquetes() {
           :tienefechalimite="pkg.tiene_fecha_limite"
           :fechalimite="pkg.fecha_limite_compra"
           :tipo="pkg.tipo"
+          :es_promocion="pkg.es_promocion ?? 0"
         />
       </div>
     </div>

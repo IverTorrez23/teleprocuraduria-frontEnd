@@ -702,6 +702,13 @@ const router = createRouter({
           name: 'SystemUsers',
           component: () => import('@/modules/general/Usuarios/views/VUsuariosSistema.vue')
         },
+        {
+          path: '/paquetes/:idPaquete/cupon',
+          name: 'PaqueteCupon',
+          component: () =>
+            import('@/modules/admin/Cupon/views/VCupon.vue')
+        },
+        
         ...abogadoLiderRoutes,
         {
           path: '/:pathMatch(.*)*',

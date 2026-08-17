@@ -13,7 +13,13 @@ import pdfUrlProcurador from '@/assets/pdf/ACUERDO_PROCURADORES.pdf?url';
 import { baseUrlResource } from '@/config/constants'
 import tablaConfigService from '@/modules/admin/TablaConfig/services/tablaConfig.service'
 import type { ITablaConfig } from '@/modules/admin/TablaConfig/types/tablaConfig.types'
+import { useAuthModals } from '@/modules/auth/composables/useAuthModals'
+import { useRoute } from 'vue-router'
+import { useAuthStore } from '../stores/auth.store'
 
+const authStore = useAuthStore()
+
+const route = useRoute()
 const toast = useToast()
 const { layoutConfig } = useLayout()
 const steps = reactive({
@@ -22,10 +28,33 @@ const steps = reactive({
   verification: false
 })
 
+const {
+  openRegister,
+  tipoUsuarioRegistro
+} = useAuthModals()
+
 const validationErrors = ref<Record<string, string[]>>({})
 const tablaConfigSelected = ref<ITablaConfig>()
 
-const form = ref<IRegistroForm>({
+/*const form = ref<IRegistroForm>({
+  nombre: '',
+  apellido: '',
+  email: '',
+  password: '',
+  direccion: '',
+  telefono: '',
+  coordenadas: '',
+  observacion: '',
+  tipo: '',
+  foto_url: '',
+  opciones_moto: {
+    NO_MOTO: false,
+    SI_MANEJA_NO_TIENE: false,
+    SI_MOTO: false
+  }
+})*/
+
+const crearFormularioVacio = (): IRegistroForm => ({
   nombre: '',
   apellido: '',
   email: '',
@@ -43,6 +72,20 @@ const form = ref<IRegistroForm>({
   }
 })
 
+const form = ref<IRegistroForm>(crearFormularioVacio())
+
+  /*const limpiarFormularioRegistro = () => {
+  form.value = crearFormularioVacio()
+
+  verificationCode.value = ''
+  validationErrors.value = {}
+
+  loading.value = false
+  steps.verification = false
+  console.log('se llamo a la funcion limpiarFormularioRegistro')
+  //tipoUsuarioRegistro.value =null
+  
+}*/
 const loading = ref(false)
 const verificationCode = ref('')
 const notaTipoUsuario = ref('')
@@ -71,6 +114,27 @@ watch(
   () => props.visible,
   (newValue) => {
     internalVisible.value = newValue
+    console.log('tipoUsuarioRegistro', tipoUsuarioRegistro.value)
+    console.log('estaEnPaginaCanje.value', estaEnPaginaCanje.value)
+
+    // Limpiar todos los campos al abrir
+    //form.value = crearFormularioVacio()
+    //validationErrors.value = {}
+    //verificationCode.value = ''
+    //steps.verification = false
+    console.log('llego accion ')
+
+    // Si está en la página de canje,
+    // asignar automáticamente el tipo del paquete
+    if (
+      estaEnPaginaCanje.value &&
+      tipoUsuarioRegistro.value
+    ) {
+      form.value.tipo =
+        tipoUsuarioRegistro.value
+
+      handleOptionChange(form.value.tipo)
+    }
   }
 )
 
@@ -80,6 +144,7 @@ const onHide = () => {
 }
 
 const enviarCodigoVerificacion = async () => {
+  console.log('form.value.email', form.value.email)
   loading.value = true
   try {
     await AutorizacionService.enviarCodigoVerificacion(form.value.email)
@@ -110,6 +175,11 @@ const verifyAndRegister = async () => {
       }
       showToast('error', 'Error', response.message || 'Error en el registro')
     } else {
+      console.log('response?.data?.data', response?.data?.data)
+      // Iniciar sesión automáticamente
+    authStore.setAuthenticatedUser(
+      response?.data?.data
+    )
       showToast('success', 'Registro exitoso', response.message || 'Te has registrado con éxito.')
       form.value = {
         nombre: '',
@@ -199,6 +269,17 @@ const handleOptionChange = (tipo: string) => {
   }
   console.log('dddd',pdfTerminos.value)
 }
+const estaEnPaginaCanje = computed(() => {
+  return route.name === 'CanjeoCupon'
+})
+
+const tipoBloqueadoPorPaquete = computed(() => {
+  return (
+    estaEnPaginaCanje.value &&
+    Boolean(tipoUsuarioRegistro.value)
+  )
+})
+
 </script>
 
 <template>
@@ -266,10 +347,21 @@ const handleOptionChange = (tipo: string) => {
             v-model="form.tipo"
             :options="tipoUsuarioOptions"
             optionLabel="label"
-            option-value="value"
+            optionValue="value"
             placeholder="Seleccione un tipo"
+            :disabled="tipoBloqueadoPorPaquete"
             @change="handleOptionChange(form.tipo)"
           />
+          <small
+  v-if="
+    estaEnPaginaCanje &&
+    tipoUsuarioRegistro
+  "
+  class="text-500 block mt-2"
+>
+  El tipo de cuenta fue definido automáticamente
+  según el paquete promocional seleccionado.
+</small>
         </div>
         <div class="text-600" v-if="form.tipo" style="font-size: small">
           <i
