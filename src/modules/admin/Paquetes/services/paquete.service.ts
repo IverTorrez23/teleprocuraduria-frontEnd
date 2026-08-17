@@ -1,4 +1,5 @@
 import axios from '@/config/axios'
+import { isAxiosError } from 'axios'
 import type { IPaquete } from '../types/paquete.types'
 import type { IOpcionesPaginado, IPaginado } from '@/common/common.types'
 import { CrearRespuestaPaginado } from '@/common/utils/respuestas-paginado'
@@ -14,9 +15,12 @@ const ENDPOINT = Object.freeze({
   obtenerUnPaquete(id: number) {
     return this.PAQUETES + `/${id}`
   },
+  obtenerUnPaquetePromocion(id: number) {
+    return this.PAQUETES + `/promocion/${id}`
+  },
   listarPaquetesSegunUsuario() {
     return this.PAQUETES + `/listado/segun-usuario`
-  },
+  }
 })
 
 const getPaquetes = async (
@@ -68,12 +72,29 @@ const listarPaquetesSegunUsuario = async () => {
   return response?.data.data
 }
 const obtenerUnPaquete = async (id: number) => {
-    const response = await axios
-      .get<{ data: IPaquete }>(`${ENDPOINT.obtenerUnPaquete(id)}`)
-      .catch(() => undefined)
-  
-    return response?.data.data
+  const response = await axios
+    .get<{ data: IPaquete }>(`${ENDPOINT.obtenerUnPaquete(id)}`)
+    .catch(() => undefined)
+
+  return response?.data.data
+}
+const obtenerUnPaquetePromocion = async (id: number): Promise<IPaquete> => {
+  try {
+    const response = await axios.get<{ data: IPaquete }>(ENDPOINT.obtenerUnPaquetePromocion(id))
+
+    return response.data.data
+  } catch (error: unknown) {
+    if (isAxiosError(error)) {
+      if (!error.response) {
+        throw new Error('No se pudo conectar con el servidor.')
+      }
+
+      throw new Error(error.response.data?.message || 'No se pudo obtener el paquete promocional.')
+    }
+
+    throw new Error(error instanceof Error ? error.message : 'Ocurrió un error inesperado.')
   }
+}
 
 const createPaquete = async (paquete: Omit<IPaquete, 'id'>) => {
   const response = await axios
@@ -107,5 +128,6 @@ export default {
   deletePaquete,
   listarPaquetes,
   obtenerUnPaquete,
-  listarPaquetesSegunUsuario
+  listarPaquetesSegunUsuario,
+  obtenerUnPaquetePromocion
 }

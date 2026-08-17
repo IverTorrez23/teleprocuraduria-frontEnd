@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   id: Number,
@@ -9,7 +9,8 @@ const props = defineProps({
   duration: Number,
   tienefechalimite: Number,
   fechalimite: String,
-  tipo: String
+  tipo: String,
+  es_promocion: Number
 })
 const tipoPaquete = ref('')
 if (props.tipo === 'ABOGADO_INDEPENDIENTE') {
@@ -24,9 +25,10 @@ if (props.tipo === 'ABOGADO_INDEPENDIENTE') {
     <div class="p-3 h-full">
       <div
         v-animateonscroll="{ enterClass: 'fadeInUp', leaveClass: 'fadeOut' }"
-        class="shadow-2 p-3 h-full flex border-200 flex-column surface-card border-2 hover:border-primary transition-duration-300 transition-all"
+        class="shadow-2 p-3 h-full flex border-200 flex-column surface-card border-2 hover:border-primary transition-duration-300 transition-all card-paquete"
         style="border-radius: 10px"
       >
+        <div v-if="props.es_promocion === 1" class="ribbon">🔥PROMOCIÓN</div>
         <div class="flex justify-content-between align-items-center mb-2">
           <div class="text-900 font-medium text-xl">
             {{ props.title }}
@@ -69,6 +71,13 @@ if (props.tipo === 'ABOGADO_INDEPENDIENTE') {
         </div>
         <hr class="mb-3 mx-0 border-top-1 border-none surface-border mt-auto" />
         <Button
+          v-if="props.es_promocion === 1"
+          label="Canjear cupon"
+          class="p-3 w-full"
+          @click="$router.push('/canjeo/' + props.id + '/cupon')"
+        ></Button>
+        <Button
+          v-else
           label="Comprar"
           class="p-3 w-full"
           @click="$router.push('/paquete/' + props.id + '/compra')"
@@ -129,5 +138,37 @@ if (props.tipo === 'ABOGADO_INDEPENDIENTE') {
   border-radius: 999px;
   font-size: 0.875rem;
   font-weight: 600;
+}
+
+.card-paquete {
+  position: relative;
+  overflow: hidden;
+}
+
+.ribbon {
+  transition: all 0.3s ease;
+  position: absolute;
+
+  bottom: 18px;
+  right: -45px;
+
+  width: 160px;
+  background: #dc2626;
+  color: white;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 6px 0;
+
+  transform: rotate(-45deg);
+
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  z-index: 10;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.card-paquete:hover .ribbon {
+  background: #ef4444;
+  transform: rotate(-45deg) scale(1.05);
 }
 </style>

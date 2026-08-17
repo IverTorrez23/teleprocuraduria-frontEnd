@@ -6,7 +6,9 @@ import ordenService from '@/modules/general/Ordenes/services/orden.service'
 import { useAuthStore } from '../stores/auth.store'
 import { storeToRefs } from 'pinia'
 import AppLogo from '@/common/components/shared/AppLogo.vue'
+import { useAuthModals } from '@/modules/auth/composables/useAuthModals'
 
+const { openRegister } = useAuthModals()
 const toast = useToast()
 const router = useRouter()
 const authStore = useAuthStore()
@@ -21,6 +23,11 @@ const rememberMe = ref(false)
 const validationErrors = ref<Record<string, string[]>>({})
 const modoForzado = ref(false)
 const usuarioDistintoError = ref(false)
+
+const irARegistro = () => {
+  sessionModalOpen.value = false
+  openRegister()
+}
 
 const form = ref({
   email: '',
@@ -52,9 +59,9 @@ const onSubmit = async () => {
   loading.value = true
   validationErrors.value = {}
   usuarioDistintoError.value = false
-console.log('validationErrors.value', validationErrors.value)
+  console.log('validationErrors.value', validationErrors.value)
   const response = await authStore.login(form.value)
-console.log('response', response)
+  console.log('response', response)
   if (response?.status === 'success') {
     toast.add({
       severity: 'success',
@@ -162,7 +169,7 @@ const redireccionar = () => {
 
     <!-- Login -->
     <form v-else @submit.prevent="onSubmit" class="p-fluid px-4 pb-5">
-      <div class="text-center mb-4">
+      <div class="text-center mb-2">
         <AppLogo class="mb-2 w-16 mx-auto" />
 
         <div
@@ -236,6 +243,32 @@ const redireccionar = () => {
         :loading="loading"
         icon="pi pi-sign-in"
       />
+
+      <!-- Acceso al registro -->
+      <div v-if="!sesionExpirada && !modoForzado" class="mt-2">
+        <div class="auth-separator">
+          <span>o</span>
+        </div>
+
+        <div class="text-center mt-2">
+          <p class="text-sm text-gray-600 mb-2">¿Todavía no tienes una cuenta?</p>
+
+          <Button
+            type="button"
+            label="Crear una cuenta"
+            icon="pi pi-user-plus"
+            severity="secondary"
+            outlined
+            class="w-full"
+            @click="irARegistro"
+          />
+        </div>
+
+        <p class="text-center text-xs text-gray-500 mt-2 line-height-3">
+          Regístrate para acceder a los servicios disponibles y administrar tus paquetes desde una
+          sola cuenta.
+        </p>
+      </div>
     </form>
   </Dialog>
 </template>
@@ -259,5 +292,26 @@ const redireccionar = () => {
 .p-button {
   text-transform: uppercase;
   font-weight: 600;
+}
+
+.auth-separator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #9ca3af;
+  font-size: 0.8rem;
+}
+
+.auth-separator::before,
+.auth-separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #e5e7eb;
+}
+
+.auth-separator span {
+  padding: 0 0.25rem;
+  text-transform: uppercase;
 }
 </style>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { ref, onMounted, watch } from 'vue'
 import { FilterMatchMode } from 'primevue/api'
 import { useToast } from 'primevue/usetoast'
@@ -10,6 +11,7 @@ import type { DataTableSortEvent } from 'primevue/datatable'
 import { TableSize, TipoPaquete } from '@/constants/constants'
 import { formatearFechaHora } from '@/common/utils/formatearFechaHora'
 
+const router = useRouter()
 const toast = useToast()
 const dt = ref()
 const paquetes = ref<IPaquete[]>([])
@@ -26,6 +28,7 @@ const paquete = ref<IPaquete>({
   tiene_fecha_limite: 0,
   fecha_limite_compra: '',
   tipo: '',
+  es_promocion: null,
   estado: '',
   es_eliminado: 0,
   created_at: '',
@@ -139,12 +142,14 @@ const deletePaquete = async () => {
 
 const savePaquete = async () => {
   submitted.value = true
+  console.log('ddddd', paquete.value.es_promocion)
   if (
     !paquete.value?.nombre ||
     !paquete.value?.precio ||
     !paquete.value?.cantidad_dias ||
     !paquete.value?.tipo ||
-    (paquete.value?.tiene_fecha_limite && !paquete.value?.fecha_limite_compra)
+    (paquete.value?.tiene_fecha_limite && !paquete.value?.fecha_limite_compra) ||
+    paquete.value?.es_promocion === undefined
   )
     return
 
@@ -205,11 +210,18 @@ const rowStyle = (data: any) => {
     const hoy = new Date()
     hoy.setHours(0, 0, 0, 0) // Resetear hora para comparar solo fechas
     if (fechaLimite < hoy) {
-      return {  fontStyle: 'italic', backgroundColor:'#f1f1f1', color:'#a9a9a9' }
+      return { fontStyle: 'italic', backgroundColor: '#f1f1f1', color: '#a9a9a9' }
     }
   }
 }
-
+const irACuponesPaquete = (idPaquete: number) => {
+  router.push({
+    name: 'PaqueteCupon',
+    params: {
+      idPaquete
+    }
+  })
+}
 </script>
 <template>
   <div class="grid">
@@ -309,6 +321,20 @@ const rowStyle = (data: any) => {
               {{ slotProps.data.descripcion }}
             </template></Column
           >
+          <Column field="es_promocion" header="Promoción">
+            <template #body="slotProps">
+              <Button
+                v-if="slotProps.data.es_promocion === 1"
+                icon="pi pi-ticket"
+                label="Ver cupones"
+                text
+                severity="success"
+                @click="irACuponesPaquete(slotProps.data.id)"
+              />
+
+              <i v-else class="pi pi-times-circle text-red-400" style="font-size: 1.2rem"></i>
+            </template>
+          </Column>
 
           <Column field="estado" header="Estado">
             <template #body="slotProps">
@@ -344,6 +370,38 @@ const rowStyle = (data: any) => {
           :modal="true"
           class="p-fluid"
         >
+          <div class="field">
+            <label class="block mb-2">¿Es paquete de promoción?</label>
+
+            <div class="flex align-items-center gap-4">
+              <div class="flex align-items-center">
+                <RadioButton
+                  inputId="promocionSi"
+                  v-model="paquete.es_promocion"
+                  :value="1"
+                  :disabled="!!paquete.id"
+                />
+                <label for="promocionSi" class="ml-2">Sí</label>
+              </div>
+
+              <div class="flex align-items-center">
+                <RadioButton
+                  inputId="promocionNo"
+                  v-model="paquete.es_promocion"
+                  :value="0"
+                  :disabled="!!paquete.id"
+                />
+                <label for="promocionNo" class="ml-2">No</label>
+              </div>
+            </div>
+
+            <small class="p-error" v-if="submitted && paquete.es_promocion === undefined">
+              El campo es requerido.
+            </small>
+            <small v-if="paquete.id" class="text-500 block mt-2">
+              El tipo de promoción no puede modificarse después de crear el paquete.
+            </small>
+          </div>
           <div class="field">
             <label for="nombre">Nombre</label>
             <InputText
@@ -382,7 +440,7 @@ const rowStyle = (data: any) => {
           </div>
 
           <div class="field">
-            <label for="cantidad_dias">Cantidad Días</label>
+            <label for="cantidad_dias">Días de vigencia</label>
             <InputNumber
               id="cantidad_dias"
               v-model="paquete.cantidad_dias"
@@ -391,7 +449,7 @@ const rowStyle = (data: any) => {
               :invalid="submitted && !paquete?.cantidad_dias"
             />
             <small class="p-error" v-if="submitted && !paquete?.cantidad_dias"
-              >Cantidad dias es requerido.</small
+              >Dias de vigencia es requerido.</small
             >
           </div>
 

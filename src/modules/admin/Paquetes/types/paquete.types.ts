@@ -9,6 +9,7 @@ export interface IPaquete {
   tiene_fecha_limite:number
   fecha_limite_compra:string
   tipo: string
+  es_promocion: number | null
   estado: string
   es_eliminado: number
   created_at: string

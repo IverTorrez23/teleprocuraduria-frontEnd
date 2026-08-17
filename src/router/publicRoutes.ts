@@ -47,6 +47,12 @@ export const publicRoutes = [
         path: '/paquete/:id/compra',
         name: 'CompraPaquete',
         component: () => import('@/modules/general/CompraPaquete/views/VCompraPaquete.vue')
+      },
+      {
+        path: '/canjeo/:idPaquete/cupon',
+        name: 'CanjeoCupon',
+        component: () => import('@/modules/general/CompraPaquete/views/VCanjeoCuponPaquete.vue'),
+        props: true
       }
     ]
   }

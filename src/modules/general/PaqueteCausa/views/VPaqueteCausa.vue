@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch,onUnmounted } from 'vue'
+import { ref, onMounted, watch, onUnmounted } from 'vue'
 import { FilterMatchMode } from 'primevue/api'
 import { useToast } from 'primevue/usetoast'
 
@@ -74,7 +74,7 @@ const devuelveDiasDiferencia = (fechaInicio: string, fechaFin: string): number =
 }
 const contador = ref('') // Texto que muestra el cronómetro
 let intervalId: ReturnType<typeof setInterval>
-  const actualizarContador = () => {
+const actualizarContador = () => {
   if (parametroVigencia.value?.fecha_ultima_vigencia) {
     const ahora = dayjs()
     const fechaObjetivo = dayjs(parametroVigencia.value.fecha_ultima_vigencia)
@@ -87,11 +87,10 @@ let intervalId: ReturnType<typeof setInterval>
       const horas = duracion.hours()
       const minutos = duracion.minutes()
       const segundos = duracion.seconds()
-      const mesesVar=ref('')
-      if(meses>0)
-    {
-      mesesVar.value =`${meses}mes`
-    }
+      const mesesVar = ref('')
+      if (meses > 0) {
+        mesesVar.value = `${meses}mes`
+      }
       contador.value = `${mesesVar.value} ${dias}d ${horas}h ${minutos}m ${segundos}s`
     } else {
       contador.value = 'Vigencia finalizada'
@@ -112,7 +111,7 @@ const loadParametroVigencia = async () => {
         parametroVigencia.value?.fecha_ultima_vigencia
       )
       actualizarContador() // Inicializar inmediatamente
-    intervalId = setInterval(actualizarContador, 1000) // Actualizar cada segundo
+      intervalId = setInterval(actualizarContador, 1000) // Actualizar cada segundo
     }
   } else {
     toast.add({
@@ -127,7 +126,6 @@ const loadParametroVigencia = async () => {
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS }
 })
-
 
 const loadCausasSinPaquete = async () => {
   const response = await causaService.listadoSinPaquete()
@@ -156,6 +154,11 @@ watch(
 onUnmounted(() => {
   clearInterval(intervalId)
 })
+const getRowClass = (data: any) => {
+  return data?.paquete?.es_promocion === 1
+    ? 'paquete-promocional-row'
+    : ''
+}
 </script>
 <template>
   <div class="grid">
@@ -172,6 +175,7 @@ onUnmounted(() => {
           showGridlines
           :size="TableSize.small"
           tableStyle="min-width: 50rem"
+          :rowClass="getRowClass"
         >
           <Column field="id" header="ID">
             <template #body="slotPropsPaqueteCompra">
@@ -226,6 +230,20 @@ onUnmounted(() => {
               </span>
             </template></Column
           >
+          <Column header="Origen">
+            <template #body="slotPropsPaqueteCompra">
+              <span class="p-column-title">Origen</span>
+
+              <Tag
+                v-if="slotPropsPaqueteCompra?.data?.paquete?.es_promocion === 1"
+                value="Cupón promocional"
+                severity="success"
+                icon="pi pi-gift"
+              />
+
+              <Tag v-else value="Compra" severity="info" icon="pi pi-shopping-cart" />
+            </template>
+          </Column>
         </DataTable>
         <br />
         <Tag :value="'Total dís de crédito : ' + contador" severity="info" />
@@ -259,5 +277,13 @@ onUnmounted(() => {
 
 .tag-danger {
   background-color: #dc3545;
+}
+
+:deep(.paquete-promocional-row) {
+  background: rgba(16, 185, 129, 0.06) !important;
+}
+
+:deep(.paquete-promocional-row:hover) {
+  background: rgba(16, 185, 129, 0.11) !important;
 }
 </style>

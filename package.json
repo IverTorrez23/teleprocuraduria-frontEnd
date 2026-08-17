@@ -26,11 +26,13 @@
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
     "primevue": "^3.53.0",
+    "qrcode": "^1.5.4",
     "quill": "^2.0.2",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3",
     "vue-tel-input": "^9.2.0",
-    "vue3-treeselect": "^0.1.10"
+    "vue3-treeselect": "^0.1.10",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
@@ -38,6 +40,7 @@
     "@types/leaflet": "^1.9.21",
     "@types/node": "^20.14.5",
     "@types/pdfmake": "^0.2.11",
+    "@types/qrcode": "^1.5.6",
     "@types/vue-tel-input": "^2.1.7",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/eslint-config-prettier": "^9.0.0",

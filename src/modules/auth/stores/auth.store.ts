@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  const login = async (credenciales: ICredenciales): Promise<ServiceResponse<any>> => {
+  const login2 = async (credenciales: ICredenciales): Promise<ServiceResponse<any>> => {
     /*const lastUserEmail = localStorage.getItem('lastUserEmail')
 
     if (lastUserEmail && credenciales.email !== lastUserEmail) {
@@ -81,6 +81,33 @@ export const useAuthStore = defineStore('auth', () => {
       return { status: 'error', message: 'Error de red' }
     }
   }
+  const login = async (
+  credenciales: ICredenciales
+): Promise<ServiceResponse<any>> => {
+  try {
+    const response =
+      await AutorizacionService.iniciarSesion(credenciales)
+
+    if (response.status !== 'success') {
+      if (!response.errors) {
+        clearSession()
+      }
+
+      return response
+    }
+
+    setAuthenticatedUser(response.data.data)
+
+    return response
+  } catch {
+    clearSession()
+
+    return {
+      status: 'error',
+      message: 'Error de red'
+    }
+  }
+}
 
   const startSessionTimer = () => {
     clearSessionTimer()
@@ -172,6 +199,27 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('lastActivity')
   }
 
+  const setAuthenticatedUser = (data: any) => {
+  usuario.value = {
+    ...data.user,
+    accessToken: data.access_token,
+    expiresAt: data.expires_at,
+    tokenType: data.token_type
+  }
+
+  token.value = data.access_token
+  expiresAt.value = data.expires_at
+  authStatus.value = AuthStatus.Authenticated
+
+  localStorage.setItem('user', JSON.stringify(usuario.value))
+  localStorage.setItem('expiresAt', data.expires_at)
+
+  sesionExpirada.value = false
+  localStorage.removeItem('lastUserEmail')
+
+  startSessionTimer()
+}
+
   return {
     usuario,
     token,
@@ -184,6 +232,7 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     logout,
     clearSession,
+    setAuthenticatedUser,
 
     isChecking: computed(() => authStatus.value === AuthStatus.Checking),
     isAuthenticated: computed(() => authStatus.value === AuthStatus.Authenticated),
