@@ -7,6 +7,7 @@ import { useAuthStore } from '../stores/auth.store'
 import { storeToRefs } from 'pinia'
 import AppLogo from '@/common/components/shared/AppLogo.vue'
 import { useAuthModals } from '@/modules/auth/composables/useAuthModals'
+import ForgotPasswordModal from './ForgotPasswordModal.vue'
 
 const { openRegister } = useAuthModals()
 const toast = useToast()
@@ -23,6 +24,7 @@ const rememberMe = ref(false)
 const validationErrors = ref<Record<string, string[]>>({})
 const modoForzado = ref(false)
 const usuarioDistintoError = ref(false)
+const forgotPasswordVisible = ref(false)
 
 const irARegistro = () => {
   sessionModalOpen.value = false
@@ -134,6 +136,10 @@ const redireccionar = () => {
   authStore.routePreviewLogin = null
   router.replace(destino)
 }
+const abrirRecuperacionPassword = () => {
+  sessionModalOpen.value = false
+  forgotPasswordVisible.value = true
+}
 </script>
 
 <template>
@@ -229,11 +235,13 @@ const redireccionar = () => {
       </div>
 
       <div class="flex justify-between items-center mb-4 text-sm text-gray-600">
-        <div class="flex items-center">
+        <!-- <div class="flex items-center">
           <Checkbox v-model="rememberMe" :binary="true" inputId="rememberMe" class="mr-2" />
           <label for="rememberMe">Recordarme</label>
-        </div>
-        <a href="#" class="text-primary hover:underline">¿Olvidaste tu contraseña?</a>
+        </div> -->
+        <a href="#" class="text-primary hover:underline" @click.prevent="abrirRecuperacionPassword">
+          ¿Olvidaste tu contraseña?
+        </a>
       </div>
 
       <Button
@@ -271,6 +279,8 @@ const redireccionar = () => {
       </div>
     </form>
   </Dialog>
+
+  <ForgotPasswordModal v-model:visible="forgotPasswordVisible" />
 </template>
 
 <style scoped>
