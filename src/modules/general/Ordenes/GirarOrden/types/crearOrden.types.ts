@@ -10,4 +10,6 @@ export interface ICrearOrden {
   propina: number
   causa_id: number
   procurador_id: number
+  sugerencia_presupuesto: string
+  monto_sug_pres: number
 }

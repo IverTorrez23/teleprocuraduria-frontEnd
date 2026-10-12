@@ -11,7 +11,7 @@ const ENDPOINT = Object.freeze({
   },
 })
 
-const createOrden = async (orden: Omit<ICrearOrden, 'id'>) => {
+const createOrden = async (orden: any) => {
   try {
     const response = await axios.post<{ response: ICrearOrden }>(ENDPOINT.ORDEN, orden)
     return {
@@ -76,7 +76,7 @@ const obtenerUnaOrden = async (id?: number): Promise<ServiceResponse<ICrearOrden
   }
 }
 
-const updateOrden = async (orden:ICrearOrden) => {
+const updateOrden = async (orden:any) => {
   try {
     const response = await axios.patch<{ response: ICrearOrden }>(`${ENDPOINT.ORDEN}/${orden.id}`, orden)
     return {

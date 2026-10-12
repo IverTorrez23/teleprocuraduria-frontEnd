@@ -21,31 +21,54 @@ const ENDPOINT = Object.freeze({
 
 const listarDetalleOrden = async (id?: number): Promise<ServiceResponse<IOrden>> => {
   try {
-    const response = await axios.get<{ message: string; data: IOrden }>(ENDPOINT.listarDetalleOrden(id))
+    const response = await axios.get<{ message: string; data: IOrden }>(
+      ENDPOINT.listarDetalleOrden(id)
+    )
 
     // Si tu backend envía un campo "message" además de los datos
     return {
       status: 'success',
       data: response.data.data,
-      message: response.data.message || "Detalle de orden obtenido correctamente."
+      message: response.data.message || 'Detalle de orden obtenido correctamente.'
     }
-
   } catch (error: any) {
     return {
       status: 'error',
       data: null as any,
-      message: error.response?.data?.message || "Ocurrió un error al obtener el detalle de la orden."
+      message:
+        error.response?.data?.message || 'Ocurrió un error al obtener el detalle de la orden.'
     }
   }
 }
 
-const sugerirPresupuesto = async (orden: IOrden) => {
+const sugerirPresupuesto = async (orden: any) => {
   if (!orden.id) throw new Error('id es requerido')
-  const response = await axios
-    .patch<{ response: IOrden }>(`${ENDPOINT.sugerirPresupuesto(orden.id)}`, orden)
-    .catch(() => undefined)
+  try {
+    const response = await axios.patch<{ response: IOrden }>(
+      `${ENDPOINT.sugerirPresupuesto(orden.id)}`,
+      orden
+    )
+    return {
+      success: true,
+      data: response.data
+    }
+    
+  } catch (error: any) {
+    if (error.response) {
+      const statusCode = error.response.status
+      const errorMessage = error.response.data.message || 'Error en la solicitud al servidor.'
 
-  return response?.data.response
+      return {
+        success: false,
+        error: `Error ${statusCode}: ${errorMessage}`
+      }
+    }
+
+    return {
+      success: false,
+      error: 'Error en la conexión o solicitud fallida.'
+    }
+  }
 }
 const deleteOrden = async (orden: IOrden) => {
   if (!orden?.id) throw new Error('id es requerido')
