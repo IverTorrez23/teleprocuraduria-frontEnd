@@ -708,6 +708,12 @@ const router = createRouter({
           component: () =>
             import('@/modules/admin/Cupon/views/VCupon.vue')
         },
+        {
+          path: '/sugerencia-gasto',
+          name: 'SugerenciaGasto',
+          component: () =>
+            import('@/modules/admin/SugerenciaGastos/views/VSugerenciaGasto.vue')
+        },
         
         ...abogadoLiderRoutes,
         {

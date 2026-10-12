@@ -61,7 +61,7 @@ const obtenerUnPresupuesto = async (id: number) => {
   return response?.data.data
 }
 
-const createPresupuesto = async (presupuesto: Omit<IPresupuesto, 'id'>) => {
+const createPresupuesto = async (presupuesto: any) => {
   try {
     const response = await axios.post<{ response: IPresupuesto }>(
       ENDPOINT.PRESUPUESTOS,
@@ -74,7 +74,7 @@ const createPresupuesto = async (presupuesto: Omit<IPresupuesto, 'id'>) => {
   }
 }
 
-const updatePresupuesto = async (presupuesto: IPresupuesto) => {
+const updatePresupuesto = async (presupuesto: any) => {
   if (!presupuesto.id) throw new Error('ID es requerido')
 
   try {

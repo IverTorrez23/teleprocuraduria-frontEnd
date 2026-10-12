@@ -22,6 +22,7 @@ export interface IOrden {
   procurador_id: number
   matriz_id: number
   usuario_id: number
+  monto_sug_pres: number
   estado: string
   causa: Causa
   procurador: Procurador

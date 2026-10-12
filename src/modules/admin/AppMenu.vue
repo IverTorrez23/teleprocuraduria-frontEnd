@@ -916,6 +916,11 @@ const modelAdmin = ref([
             badge: ' Soon',
             badgeClass: 'p-badge-info p-badge-sm'
           },
+          {
+            label: 'Plantilla de gastos',
+            icon: 'pi pi-fw pi-comment',
+            to: '/sugerencia-gasto',
+          },
     ]
   },
   {
