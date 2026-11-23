@@ -20,6 +20,9 @@ import sugerenciaGastoService from '@/modules/admin/SugerenciaGastos/services/su
 import type { ISugerenciaGasto } from '@/modules/admin/SugerenciaGastos/types/sugerenciaGasto.types'
 import type { ISugerenciaOrden } from '@/modules/general/SugerenciaOrden/types/sugerenciaOrden.types'
 import sugerenciaOrdenService from '@/modules/general/SugerenciaOrden/services/sugerenciaOrden.service'
+import type { IPlantillaInformacion } from '@/modules/admin/PlantillaInformacion/types/plantillaInformacion.types'
+import plantillaInformacionService from '@/modules/admin/PlantillaInformacion/services/plantillaInformacion.service'
+import OVisorTextCompleto from '@/components/OVisorTextCompleto.vue'
 
 const toast = useToast()
 const route = useRoute()
@@ -37,6 +40,7 @@ const tribunalDominante = ref<ITribunalDominanteResponse | null>(null)
 const sugerenciasPresupuesto = ref<ISugerenciaGasto[]>([])
 const sugerenciasAplicadas = ref<ISugerenciaGasto[]>([])
 const sugerenciaOrden = ref<ISugerenciaOrden[]>([])
+const plantillasInformacion = ref<IPlantillaInformacion[]>([])
 
 type ISugerenciaTemporal = {
   tempId: string
@@ -421,14 +425,28 @@ const loadSugerencias = async () => {
     } else {
       sugerenciasPresupuesto.value = await sugerenciaGastoService.listarActivosGenerales()
     }
-
-    console.log('consul 1')
   } catch (error: unknown) {
     toast.add({
       severity: 'error',
       summary: 'Error',
       detail:
         error instanceof Error ? error.message : 'No se pudieron cargar las sugerencias generales.',
+      life: 4000
+    })
+  }
+}
+
+const loadPlantillaInformacion = async () => {
+  try {
+    plantillasInformacion.value = await plantillaInformacionService.listarActivos()
+  } catch (error: unknown) {
+    toast.add({
+      severity: 'error',
+      summary: 'Error',
+      detail:
+        error instanceof Error
+          ? error.message
+          : 'No se pudieron cargar las plantillas de informacion.',
       life: 4000
     })
   }
@@ -442,6 +460,7 @@ const normalizarFecha = (fecha: string | null | undefined) => {
 
 onMounted(() => {
   loadSugerencias()
+  loadPlantillaInformacion()
   if (idOrden) {
     loadDetallOrden()
   }
@@ -462,6 +481,7 @@ const breadcrumbItems = [
 ]
 
 const presupuestoDialog = ref(false)
+const plantillaInformacionDialog = ref(false)
 
 /*const sugerenciasPresupuesto = ref([
   {
@@ -498,13 +518,7 @@ const totalPresupuestoSeleccionado = computed(() => {
 })
 
 const abrirSugerenciasPresupuesto = () => {
-  //sugerenciasSeleccionadas.value = []
-  console.log('sugerenciasSeleccionadas', sugerenciasSeleccionadas)
-  /*sugerenciasSeleccionadas.value = sugerenciasAplicadas.value.map((item) => ({
-    ...item
-  }))*/
   presupuestoDialog.value = true
-  console.log('sugerenciasSeleccionadas', sugerenciasSeleccionadas)
 }
 
 const cancelarPresupuesto = () => {
@@ -513,6 +527,10 @@ const cancelarPresupuesto = () => {
   }))
 
   presupuestoDialog.value = false
+}
+
+const cancelarPlantillaInformacion = () => {
+  plantillaInformacionDialog.value = false
 }
 
 const aplicarPresupuesto = () => {
@@ -683,6 +701,29 @@ const limpiarSugerenciasPresupuesto = () => {
   crearOrden.value.monto_sug_pres = 0
   crearOrden.value.sugerencia_presupuesto = ''
 }
+
+const cargarCuerpoInformacion = (cuerpoInfirmacion: string) => {
+  crearOrden.value.entrega_informacion = cuerpoInfirmacion
+  plantillaInformacionDialog.value = false
+}
+const abrirPlantillaInformacion = () => {
+  plantillaInformacionDialog.value = true
+}
+
+//Para visualizacion de textos completos
+const modalTexCompletoVisible = ref(false)
+const fullText = ref('')
+const headerTextoCompleto = ref('')
+
+const viewTextCompleto = (text: string, headerModal: string) => {
+  fullText.value = text
+  modalTexCompletoVisible.value = true
+  headerTextoCompleto.value = headerModal
+}
+
+const limpiarCampoInformacion = () => {
+  crearOrden.value.entrega_informacion = ''
+}
 </script>
 
 <template>
@@ -699,6 +740,23 @@ const limpiarSugerenciasPresupuesto = () => {
       <div class="p-fluid formgrid grid">
         <div class="field col-12">
           <h5 for="entrega_informacion">Información</h5>
+          <div class="flex gap-2 mb-3">
+            <Button
+              label="Sugerencias de texto para nueva información"
+              icon="pi pi-lightbulb"
+              severity="info"
+              style="flex: 7"
+              @click="abrirPlantillaInformacion"
+            />
+
+            <Button
+              label="Limpiar Información"
+              icon="pi pi-trash"
+              severity="secondary"
+              style="flex: 3"
+              @click="limpiarCampoInformacion"
+            />
+          </div>
           <Editor
             id="entrega_informacion"
             v-model="crearOrden.entrega_informacion"
@@ -999,6 +1057,92 @@ const limpiarSugerenciasPresupuesto = () => {
       </div>
     </template>
   </Dialog>
+
+  <Dialog
+    v-model:visible="plantillaInformacionDialog"
+    header="Plantilla de Informacón"
+    modal
+    :style="{
+      width: '850px',
+      maxWidth: '95vw'
+    }"
+    :contentStyle="{
+      maxHeight: '65vh',
+      overflowY: 'auto'
+    }"
+  >
+    <p class="text-600 mt-0 mb-3">Seleccione la plantilla de información.</p>
+
+    <DataTable
+     
+      :value="plantillasInformacion"
+      dataKey="id"
+      showGridlines
+      responsiveLayout="scroll"
+    >
+      <!-- VER CONTENIDO -->
+    <Column
+      header="Ver"
+      style="width: 80px"
+    >
+      <template #body="slotProps">
+        <div class="flex justify-content-center">
+          <i
+            class="pi pi-eye cursor-pointer text-primary plantilla-icon"
+            v-tooltip.top="'Ver contenido de la plantilla'"
+            @click="viewTextCompleto(slotProps.data.cuerpo_plantilla, 'Cuerpo Plantilla')"
+          ></i>
+        </div>
+      </template>
+    </Column>
+
+      <Column field="nombre" header="Nombre" />
+
+      <Column header="Cargar"
+      style="width: 120px">
+        <template #body="slotProps">
+        <div class="flex justify-content-center">
+          <i
+            class="pi pi-arrow-circle-down cursor-pointer text-green-500 plantilla-icon"
+            v-tooltip.top="'Cargar esta plantilla a la información'"
+            @click="
+              cargarCuerpoInformacion(
+                slotProps.data.cuerpo_plantilla
+              )
+            "
+          ></i>
+        </div>
+      </template>
+      </Column>
+    </DataTable>
+
+    
+    <template #footer>
+      <div class="w-full flex flex-column gap-3">
+       
+        <!-- BOTONES -->
+        <div class="flex justify-content-end gap-2">
+          <Button
+            label="Cancelar"
+            icon="pi pi-times"
+            severity="secondary"
+            text
+            @click="cancelarPlantillaInformacion"
+          />
+
+        </div>
+      </div>
+    </template>
+  </Dialog>
+
+
+    <OVisorTextCompleto
+    :fullText="fullText"
+    :visible="modalTexCompletoVisible"
+    @update:visible="modalTexCompletoVisible = $event"
+    :header="headerTextoCompleto"
+  />
+
 </template>
 
 <style scoped lang="scss">

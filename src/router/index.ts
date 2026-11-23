@@ -714,6 +714,12 @@ const router = createRouter({
           component: () =>
             import('@/modules/admin/SugerenciaGastos/views/VSugerenciaGasto.vue')
         },
+        {
+          path: '/plantilla-informacion',
+          name: 'PlantillaInformacion',
+          component: () =>
+            import('@/modules/admin/PlantillaInformacion/views/VPlantillaInformacion.vue')
+        },
         
         ...abogadoLiderRoutes,
         {
