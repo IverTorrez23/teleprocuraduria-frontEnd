@@ -921,6 +921,11 @@ const modelAdmin = ref([
             icon: 'pi pi-fw pi-comment',
             to: '/sugerencia-gasto',
           },
+          {
+            label: 'Plantilla de informacion',
+            icon: 'pi pi-fw pi-info',
+            to: '/plantilla-informacion',
+          },
     ]
   },
   {
